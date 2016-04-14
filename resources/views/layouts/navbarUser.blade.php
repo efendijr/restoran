@@ -1,10 +1,7 @@
 
 @section('branding')
-    @if (Auth::guest())
-        <a href="{{ route('home')}}" class="navbar-brand">
-    @else 
-        <a href="{{ route('home.login')}}" class="navbar-brand">
-    @endif
+
+            <a href="{{ route('home')}}" class="navbar-brand">
             <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
             Eat Again
         </a>

@@ -41,7 +41,7 @@ class MakananController extends Controller
             'name' => 'required|min:3|max:20',
             'description' => 'required|min:10|max:255',
             'price' => 'required',
-            'image' => 'mimes: jpg,jpeg,png|max:200',
+            'image' => 'mimes: jpg,jpeg,png|max:300',
         ];
 
         $this->validate($request, $rules);
@@ -62,7 +62,7 @@ class MakananController extends Controller
             $makan->descriptionMakanan = $request->get('description');
             $makan->priceMakanan = $request->get('price');
             $makan->imageMakanan = 'http://localhost/restoran/public/uploads/' . $filename;
-            $makan->thumbMakanan = 'http://192.168.1.5/restoran/public/uploads/' . $filename;
+            $makan->thumbMakanan = 'http://192.168.1.22/restoran/public/uploads/' . $filename;
             $makan->save();
 
             Session::flash('flash_success', 'Berhasil menambahkan makanan baru');

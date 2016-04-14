@@ -20,4 +20,14 @@ class Member extends Model
 
         return $query;
     }
+
+    public function selldeposite()
+    {
+        return $this->hasMany(Selldeposite::class);
+    }
+
+    public function pengiriman()
+    {
+        return $this->hasMany(Pengiriman::class);
+    }
 }

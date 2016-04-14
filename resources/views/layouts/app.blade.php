@@ -21,6 +21,7 @@
 
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" type='text/css'>
     <link rel="stylesheet" href="/bower_components/jasny-bootstrap/dist/css/jasny-bootstrap.css" type='text/css'>
+    <link rel="stylesheet" href="/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css">
 
     <style>
         @font-face {
@@ -81,6 +82,7 @@
     <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="/bower_components/jquery-timeago/jquery.timeago.js"></script>
     <script src="/bower_components/jasny-bootstrap/dist/js/jasny-bootstrap.js"></script>
+    <script src="/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 
     <script>
         $(function(){

@@ -155,6 +155,155 @@ Route::get('admin/member/{member}/delete', [
 ]);
 
 /*
+	payment
+ */
+
+Route::post('payment/makan', [
+	'as' => 'payment.makan',
+	'uses' => 'ApiController@paymentResto',
+]);
+
+Route::post('getid', 'ApiController@getid');
+Route::get('getuser', 'ApiController@getuser');
+Route::get('getmember', 'ApiController@getmember');
+Route::post('usetoken', 'TokenController@useToken');
+
+
+/*
+	buydeposite table
+ */
+Route::get('admin/buydeposite', [
+	'as' => 'buydeposite',
+	'uses' => 'BuydepositeController@index',
+]);
+Route::get('admin/buydeposite/buat', [
+	'as' => 'buydeposite.buat',
+	'uses' => 'BuydepositeController@create',
+]);
+Route::post('admin/buydeposite/simpan', [
+	'as' => 'buydeposite.simpan',
+	'uses' => 'BuydepositeController@store',
+]);
+Route::get('admin/buydeposite/{buydeposite}/detail', [
+	'as' => 'buydeposite.detail',
+	'uses' => 'BuydepositeController@show',
+]);
+Route::get('admin/buydeposite/{buydeposite}/edit', [
+	'as' => 'buydeposite.edit',
+	'uses' => 'BuydepositeController@edit',
+]);
+Route::put('admin/buydeposite/{buydeposite}/update', [
+	'as' => 'buydeposite.update',
+	'uses' => 'BuydepositeController@update',
+]);
+Route::get('admin/buydeposite/{buydeposite}/delete', [
+	'as' => 'buydeposite.delete',
+	'uses' => 'BuydepositeController@destroy',
+]);
+
+/*
+	selldeposite
+ */
+
+Route::get('admin/selldeposite', [
+	'as' => 'selldeposite',
+	'uses' => 'SelldepositeController@index',
+]);
+Route::get('admin/selldeposite/buat', [
+	'as' => 'selldeposite.buat',
+	'uses' => 'SelldepositeController@create',
+]);
+Route::post('admin/selldeposite/simpan', [
+	'as' => 'selldeposite.simpan',
+	'uses' => 'SelldepositeController@store',
+]);
+Route::get('admin/selldeposite/{selldeposite}/detail', [
+	'as' => 'selldeposite.detail',
+	'uses' => 'SelldepositeController@show',
+]);
+Route::get('admin/selldeposite/{selldeposite}/edit', [
+	'as' => 'selldeposite.edit',
+	'uses' => 'SelldepositeController@edit',
+]);
+Route::put('admin/selldeposite/{selldeposite}/update', [
+	'as' => 'selldeposite.update',
+	'uses' => 'SelldepositeController@update',
+]);
+Route::get('admin/selldeposite/{selldeposite}/delete', [
+	'as' => 'selldeposite.delete',
+	'uses' => 'SelldepositeController@destroy',
+]);
+
+/*
+	payment tabel
+ */
+
+Route::get('admin/payment', [
+	'as' => 'payment',
+	'uses' => 'PaymentController@index',
+]);
+Route::get('admin/payment/buat', [
+	'as' => 'payment.buat',
+	'uses' => 'PaymentController@create',
+]);
+Route::post('admin/payment/simpan', [
+	'as' => 'payment.simpan',
+	'uses' => 'PaymentController@store',
+]);
+Route::get('admin/payment/{payment}/detail', [
+	'as' => 'payment.detail',
+	'uses' => 'PaymentController@show',
+]);
+Route::get('admin/payment/{payment}/edit', [
+	'as' => 'payment.edit',
+	'uses' => 'PaymentController@edit',
+]);
+Route::put('admin/payment/{payment}/update', [
+	'as' => 'payment.update',
+	'uses' => 'PaymentController@update',
+]);
+Route::get('admin/payment/{payment}/delete', [
+	'as' => 'payment.delete',
+	'uses' => 'PaymentController@destroy',
+]);
+
+
+/*
+	pengiriman table
+ */
+
+Route::get('admin/pengiriman', [
+	'as' => 'pengiriman',
+	'uses' => 'PengirimanController@index',
+]);
+Route::get('admin/pengiriman/buat', [
+	'as' => 'pengiriman.buat',
+	'uses' => 'PengirimanController@create',
+]);
+Route::post('admin/pengiriman/simpan', [
+	'as' => 'pengiriman.simpan',
+	'uses' => 'PengirimanController@store',
+]);
+Route::get('admin/pengiriman/{pengiriman}/detail', [
+	'as' => 'pengiriman.detail',
+	'uses' => 'PengirimanController@show',
+]);
+Route::get('admin/pengiriman/{pengiriman}/edit', [
+	'as' => 'pengiriman.edit',
+	'uses' => 'PengirimanController@edit',
+]);
+Route::put('admin/pengiriman/{pengiriman}/update', [
+	'as' => 'pengiriman.update',
+	'uses' => 'PengirimanController@update',
+]);
+Route::get('admin/pengiriman/{pengiriman}/delete', [
+	'as' => 'pengiriman.delete',
+	'uses' => 'PengirimanController@destroy',
+]);
+
+
+
+/*
 	API untuk android
  */
 // api tabel makanan
@@ -178,18 +327,4 @@ Route::get('tesslug/{tesslug}', [
 
 Route::auth();
 
-// Route::get('/home', 'HomeController@index');
-
-// $makanan = Makanan::all();
-//     	foreach ($makanan as $value) {
-//     		$result["status"] = true;
-//     		$result["result"][] = array(
-//     			"id" => $value["id"],
-//     			"name" => $value["name"],
-//     			"price" => $value["price"],
-//     			"description" => $value["description"],
-//     			"thumb" => $value["thumb"],
-//     			);
-//     	}
-
-//         echo json_encode($result);
+Route::get('/home', 'HomeController@index');

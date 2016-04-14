@@ -47,6 +47,7 @@ class MemberController extends Controller
             $member->usernameMember = $getusername;
             $member->password = $request->get('password');
             $member->imageMember = 'http://localhost/restoran/public/uploads/';
+            $member->thumbMember = 'http://192.168.1.22/restoran/public/uploads/';
             $member->save();
 
             Session::flash('flash_success', 'Berhasil menambahkan member baru');

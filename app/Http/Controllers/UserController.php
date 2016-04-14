@@ -60,8 +60,8 @@ class UserController extends Controller
 	            $user->description = $request->get('description');
 	            $user->alias = $getalias;
 	            $user->address = $request->get('address');
-	            $user->logo = 'http://192.168.1.18/restoran/public/uploads/' . $filename;
-	            $user->thumb = 'http://192.168.1.18/restoran/public/uploads/' . $filename;
+	            $user->logo = 'http://localhost/restoran/public/uploads/' . $filename;
+	            $user->thumb = 'http://192.168.1.22/restoran/public/uploads/' . $filename;
 	            $user->save();
 
 

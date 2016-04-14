@@ -15,5 +15,11 @@ class VerifyCsrfToken extends BaseVerifier
         'member/registrasi',
         'member/login',
         'testing/api',
+        'payment/makan',
+        'getid',
+        'getuser',
+        'getMember',
+        'usetoken'
+
     ];
 }
