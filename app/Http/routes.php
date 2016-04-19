@@ -2,6 +2,7 @@
 
 use App\Tesslug;
 use App\Testing;
+use App\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,8 @@ Route::get('/', [
 		return view('welcome');
 	}
 ]);
+
+Route::get('getmax', 'ApiController@getmax');
 
 Route::get('/home', [
 	'as' => 'home.login',
@@ -153,21 +156,6 @@ Route::get('admin/member/{member}/delete', [
 	'as' => 'member.delete',
 	'uses' => 'MemberController@destroy',
 ]);
-
-/*
-	payment
- */
-
-Route::post('payment/makan', [
-	'as' => 'payment.makan',
-	'uses' => 'ApiController@paymentResto',
-]);
-
-Route::post('getid', 'ApiController@getid');
-Route::get('getuser', 'ApiController@getuser');
-Route::get('getmember', 'ApiController@getmember');
-Route::post('usetoken', 'TokenController@useToken');
-
 
 /*
 	buydeposite table
@@ -306,16 +294,19 @@ Route::get('admin/pengiriman/{pengiriman}/delete', [
 /*
 	API untuk android
  */
-// api tabel makanan
-Route::get('api/makan', 'ApiController@apiMakanan');
 // registrasi member baru
-Route::post('member/registrasi', 'ApiController@registrasiMember');
+Route::post('api/member/registrasi', 'ApiController@registrasiMember');
 // login member
-Route::post('member/login', 'ApiController@loginMember');
+Route::post('api/member/login', 'ApiController@loginMember');
+
+Route::get('api/getmakan', 'ApiController@apiMakanan');
+Route::get('api/getresto', 'ApiController@getrestoran');
+Route::post('api/getmakan2', 'ApiController@getmakanan');
+
+
 
 Route::get('testing', 'ApiController@testing');
 Route::get('testing/{testing}', 'ApiController@testingslug');
-
 Route::get('tesslug', 'ApiController@tesslug');
 Route::get('tesslug/create', 'ApiController@createslug');
 Route::post('tesslug/store', 'ApiController@storeslug');
@@ -325,6 +316,18 @@ Route::get('tesslug/{tesslug}', [
 ]);
 
 
+
+Route::post('payment/makan', [
+	'as' => 'payment.makan',
+	'uses' => 'ApiController@paymentResto',
+]);
+
+Route::post('getid', 'ApiController@getid');
+Route::get('getuser', 'ApiController@getuser');
+Route::get('getmember', 'ApiController@getmember');
+Route::post('usingtoken', 'TokenController@usingToken');
+
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+

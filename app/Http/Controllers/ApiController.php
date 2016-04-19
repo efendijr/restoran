@@ -12,6 +12,7 @@ use App\Testing;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 
 class ApiController extends Controller
@@ -22,25 +23,53 @@ class ApiController extends Controller
 
     	$makanan = DB::table('makanans')
                     ->join('users', 'users.id', '=', 'makanans.user_id')
-                    ->select('makanans.*', 'users.name', 'users.thumb')
+                    ->select('makanans.id', 'makanans.user_id', 'makanans.nameMakanan', 'makanans.descriptionMakanan', 
+                        'makanans.priceMakanan', 'makanans.thumbMakanan', 'makanans.updated_at', 'users.name', 'users.thumb')
                     ->orderBy('makanans.id', 'DESC')
                     ->get();
+        // foreach ($makanan as $makan) {
+        //     $response["status"] = true;     
+        //     $response["makanan"][] = [
+        //         "idMakanan" => $makan->id,
+        //         "nameMakanan" => $makan->nameMakanan,
+        //         "descriptionMakanan" => $makan->descriptionMakanan,
+        //         "priceMakanan" => $makan->priceMakanan,
+        //         "thumbMakanan" => $makan->thumbMakanan,
+        //         "updatedMakanan" => $makan->updated_at,
+        //         "idWarung" => $makan->user_id,
+        //         "nameWarung" => $makan->name,
+        //         "emailWarung" => $makan->email,
+        //         "addressWarung" => $makan->address,
+        //         "thumbWarung" => $makan->thumb,
+        //     ];
+        // }
+        return Response::json(array('makanan' => $makanan));
+    }
 
-        foreach ($makanan as $makan) {
-            $response["status"] = true;     
-            $response["makanan"][] = [
-                "idMakanan" => $makan->id,
-                "nameMakanan" => $makan->nameMakanan,
-                "descriptionMakanan" => $makan->descriptionMakanan,
-                "priceMakanan" => $makan->priceMakanan,
-                "thumbMakanan" => $makan->thumbMakanan,
-                "idWarung" => $makan->user_id,
-                "nameWarung" => $makan->name,
-                "thumbWarung" => $makan->thumb,
-            ];
-        }
+    public function getmax()
+    {
+        // $tes = DB::table('makanans')->select('user_id', DB::raw('count(*) as total'))->groupby('user_id')->limit(2)->get();
+        $tes = DB::table('makanans')->join('payments', 'makanans.id', '=', 'payments.makanan_id')->select('makanans.id', 'makanans.nameMakanan', 'makanans.priceMakanan',  DB::raw('count(*) as total'))->groupby('payments.makanan_id')->limit(2)->get();
+        // $tess = DB::table('users')->where('id', $tes)->get();
+        return Response::json(array('terbanyak' => $tes));
+    }
 
-        return Response::json($response);
+    public function getmakanan(Request $request)
+    {
+        $getId = $request->get('id');
+        $makanan = Makanan::where('user_id', $getId)
+                            ->select('id', 'nameMakanan', 'descriptionMakanan', 'priceMakanan', 'thumbMakanan', 'updated_at')
+                            ->get();
+        
+        return Response::json(array('makanan' => $makanan));
+    }
+
+    public function getrestoran()
+    {
+        $restoran = User::select('id', 'name', 'email', 'description', 'address', 'thumb')
+                        ->get();
+
+        return Response::json(array('restoran' => $restoran));
     }
 
     /*
@@ -58,6 +87,8 @@ class ApiController extends Controller
         
         $email = $request->get('email');
         $username = $request->get('username');
+        $password = $request->get('password');
+        
         $getEmail = Member::where('emailMember', $email)->first();
         $getUserName = Member::where('usernameMember', $username)->first();
 
@@ -65,7 +96,7 @@ class ApiController extends Controller
             $member->nameMember = $request->get('name');
             $member->emailMember = $email;
             $member->usernameMember = $username;
-            $member->password = bcrypt($request->get('password'));
+            $member->password = bcrypt($password);
             $member->imageMember = "https://placehold.it/172x180";
             $member->thumbMember = "https://placehold.it/172x180";
             $member->depositeMember = 1000;
@@ -101,17 +132,15 @@ class ApiController extends Controller
 
         $email = $request->get('email');
         $password = $request->get('password');
-        
         $getEmail = Member::where('emailMember', $email)->first();
         $getEmail1 = Member::where('emailMember', $email)->get();
-        $getcredential = Member::where('emailMember', $email)
-                                ->where('password', $password)
-                                ->first();
+        $getPassword = Member::where('emailMember', $email)->first()->password;
+       
         $getMember1 = Member::where('emailMember', $email)->get();
 
         if ($getEmail != null) {
             
-            if ($getcredential != null) {
+            if (Hash::check($password, $getPassword)) { // check credential
                 foreach ($getEmail1 as $value) {
                 $result["status"] = true;
                 $result["result"] = array(
@@ -145,18 +174,23 @@ class ApiController extends Controller
 
     public function paymentResto(Request $request, Payment $payment, User $user, Makanan $makanan, Pengiriman $pengiriman)
     {
-        $total = $request->get('total');
-        $username = $request->get('userName');
-        $getMemberId = Member::where('usernameMember', $username)->first()->id; 
         $idMakanan = $request->get('menuId');
-        $alamatPengiriman = $request->get('alamat');
+        $username = $request->get('userName');
+        $total = $request->get('total');
+
+        // get price makanan
+        $getPrice = Makanan::where('id', $idMakanan)->first()->priceMakanan;
+        //get member id
+        $getMemberId = Member::where('usernameMember', $username)->first()->id; 
+        // get user id(warung)
         $getuserid = Makanan::where('id', $idMakanan)->first()->user_id;
+        //getdeposite member
         $getdepositemember = Member::where('usernameMember', $username)->first()->depositeMember;
 
 
         if ($total > $getdepositemember) {
             return json_encode(array(
-                "status" => false,
+                "error" => false,
                 "message" => "deposite tidak mencukupi"
                 ));  
         
@@ -164,7 +198,7 @@ class ApiController extends Controller
 
             $payment->makanan_id = $idMakanan;
             $payment->memberName = $username;
-            $payment->price = $request->get('menuPrice');
+            $payment->price = $getPrice;
             $payment->quantity = $request->get('jumlahdec');
             $payment->total = $total;
             $payment->save();
@@ -180,17 +214,29 @@ class ApiController extends Controller
             $pengiriman->payment_id = $getpaymentId;
             $pengiriman->member_id = $getMemberId;
             $pengiriman->usernameMember = $username;
-            $pengiriman->alamat = $alamatPengiriman;
+            $pengiriman->namapenerima = $request->get('namakirim');
+            $pengiriman->alamatpenerima = $request->get('alamatkirim');
+            $pengiriman->telponpenerima = $request->get('telponkirim');
             $pengiriman->status = "sedang diproses";
             $pengiriman->save();
 
              return json_encode(array(
-                "status" => false,
+                "error" => false,
                 "message" => "transaksi berhasil"
                 ));  
         }
        
     }
+
+    public function addingDeposite(Request $request, Buydeposite $buydeposite)
+    {
+        $token = $request->get('token');
+        $getdeposite = Buydeposite::where('token', $token)->first()->nominal;
+        
+        
+        return ;
+    }
+
 
     public function getid(Request $request)
     {

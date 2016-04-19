@@ -3,7 +3,7 @@
     <label class="col-md-2 control-label">Payment Id</label>
 
     <div class="col-md-8">
-        <input type="password" class="form-control" name="payment_id" value="{{ old('payment_id', @$pengiriman->payment_id) }}">
+        <input type="text" class="form-control" name="payment_id" value="{{ old('payment_id', @$pengiriman->payment_id) }}">
 
         @if ($errors->has('payment_id'))
             <span class="help-block">
@@ -31,7 +31,7 @@
     <label class="col-md-2 control-label">Alamat</label>
 
     <div class="col-md-8">
-        <input type="number" class="form-control" name="alamat" value="{{ old('alamat', @$pengiriman->alamat) }}">
+        <input type="text" class="form-control" name="alamat" value="{{ old('alamat', @$pengiriman->alamat) }}">
 
         @if ($errors->has('alamat'))
             <span class="help-block">
@@ -46,10 +46,14 @@
 
     <div class="col-md-8">
         
-        <select class="selectpicker form-control" name="status" value="{{ old('status', @$pengiriman->status) }}">
-            <option>Sedang Diproses</option>
-            <option>Dikirim</option>
-            <option>Terkirim</option>
+        <select class="selectpicker form-control" name="status">
+
+            <option value="{{ old('status', @$pengiriman->status) }}">{{ old('status', @$pengiriman->status) }}</option>
+            
+                @foreach($gettags as $tegs)
+                <option value="{{ $tegs->tags }}">{{ $tegs->tags }}</option>
+                @endforeach
+                
       </select>
 
         @if ($errors->has('status'))

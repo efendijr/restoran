@@ -31,8 +31,7 @@ class BuydepositeController extends Controller
 
     public function store(Request $request, Buydeposite $buydeposite)
     {
-    	$token = $request->get('token');
-        $buydeposite->token = bcrypt($token);
+        $buydeposite->token = str_random(20);
         $buydeposite->nominal = $request->get('nominal');
         $buydeposite->save();
 
@@ -52,7 +51,7 @@ class BuydepositeController extends Controller
 
     public function update(Request $request, Buydeposite $buydeposite)
     {
-    	$buydeposite->token = bcrypt($request->get('token'));
+    	$buydeposite->token = substr(str_shuffle($request->get('token')), 0, 17);
     	$buydeposite->nominal = $request->get('nominal');
     	$buydeposite->save();
 

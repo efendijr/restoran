@@ -40,13 +40,18 @@ class MakananController extends Controller
         $rules = [
             'name' => 'required|min:3|max:20',
             'description' => 'required|min:10|max:255',
-            'price' => 'required',
+            'price' => 'required|numeric|min:10',
+            'diskon' => 'numeric|min:0|max:90',
             'image' => 'mimes: jpg,jpeg,png|max:300',
         ];
 
         $this->validate($request, $rules);
 
         $makanname = $request->get('name');
+        $price = $request->get('price');
+        $diskon = $request->get('diskon');
+        // $diskon1 = $diskon / 100;
+        $lastPrice = $price - (($diskon / 100) * $price);
         $query = Makanan::where('nameMakanan', $makanname)->first();
 
         if ($query == null) {
@@ -61,6 +66,8 @@ class MakananController extends Controller
             $makan->slugMakanan = str_slug($makanname);
             $makan->descriptionMakanan = $request->get('description');
             $makan->priceMakanan = $request->get('price');
+            $makan->diskonMakanan = $diskon;
+            $makan->lastPriceMakanan = $lastPrice;
             $makan->imageMakanan = 'http://localhost/restoran/public/uploads/' . $filename;
             $makan->thumbMakanan = 'http://192.168.1.22/restoran/public/uploads/' . $filename;
             $makan->save();
@@ -76,6 +83,8 @@ class MakananController extends Controller
                 $makan->slugMakanan = str_slug($makanname);
                 $makan->descriptionMakanan = $request->get('description');
                 $makan->priceMakanan = $request->get('price');
+                $makan->diskonMakanan = $diskon;
+                $makan->lastPriceMakanan = $lastPrice;
                 $makan->imageMakanan = 'https://placehold.it/171x180';
                 $makan->thumbMakanan = 'https://placehold.it/171x180';
                 $makan->save();
@@ -107,6 +116,10 @@ class MakananController extends Controller
     public function update(Request $request, Makanan $makanan)
     {
         $makanname = $request->get('name');
+        $price = $request->get('price');
+        $diskon = $request->get('diskon');
+        // $diskon1 = $diskon / 100;
+        $lastPrice = $price - (($diskon / 100) * $price);
         $query = Makanan::where('nameMakanan', '=', $makanname)->first();
 
         if ($query == null) {
@@ -120,12 +133,14 @@ class MakananController extends Controller
             $makanan->slugMakanan = str_slug($makanname);
             $makanan->descriptionMakanan = $request->get('description');
             $makanan->priceMakanan = $request->get('price');
+            $makanan->diskonMakanan = $diskon;
+            $makanan->lastPriceMakanan = $lastPrice;
             $makanan->imageMakanan = 'http://192.168.1.5/restoran/public/uploads/' . $filename;
             $makanan->thumbMakanan = 'http://192.168.1.5/restoran/public/uploads/' . $filename;
             $makanan->update();
 
             Session::flash('flash_update', 'Berhasil update info makanan');
-            return redirect('makanan');
+            return redirect()->route('makan');
 
             } else {
 
@@ -134,6 +149,8 @@ class MakananController extends Controller
                 $makanan->slugMakanan = str_slug($makanname);
                 $makanan->descriptionMakanan = $request->get('description');
                 $makanan->priceMakanan = $request->get('price');
+                $makanan->diskonMakanan = $diskon;
+                $makanan->lastPriceMakanan = $lastPrice;
                 $makanan->imageMakanan = 'https://placehold.it/171x180';
                 $makanan->thumbMakanan = 'https://placehold.it/171x180';
                 $makanan->update();
@@ -149,7 +166,6 @@ class MakananController extends Controller
 
         }
 
-        
     }
 
     public function destroy($id)

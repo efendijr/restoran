@@ -80,7 +80,7 @@
 	  	<tr>
 	  		<td class="col-md-1">{{ $selldeposite->id }}</td>
 	  		<td class="col-md-1">{{ $selldeposite->member_id }}</td>
-	  		<td class="col-md-3">{{ str_limit($selldeposite->token, 15) }}</td>
+	  		<td class="col-md-3">{{ str_limit($selldeposite->token, 20) }}</td>
 	  		<td class="col-md-2">{{ $selldeposite->nominal }}</td>
 	  		<td class="col-md-2">
 	  			<time class="timeago" datatime="{{ $selldeposite->updated_at->toIso8601String() }}" 
@@ -91,7 +91,7 @@
 	  		</td>
 	  		<td class="col-md-3">
 	  			<a href="{{ route('selldeposite.detail', $selldeposite->id)}}" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="View Content"><i class="fa fa-caret-square-o-right"></i> View</a>
-	  			<a href="{{ route('selldeposite.edit', $selldeposite->id)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Edit Content"><i class="fa fa-pencil-square-o"></i> Edit</a>
+	  			<!-- <a href="{{ route('selldeposite.edit', $selldeposite->id)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Edit Content"><i class="fa fa-pencil-square-o"></i> Edit</a> -->
 	  			
 	  			<a href="{{ route('selldeposite.delete', $selldeposite->id)}}" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Delete Content" onclick="return confirm('Are you sure to delete this food?');" ><i class="fa fa-trash-o"></i> Delete</a>
 	  		</td>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Sell Deposite Page
+    Pengiriman Page
 @endsection
 
 @include('layouts.navbarAdmin')
@@ -21,7 +21,7 @@
             <div class="lead">Create Food</div>
         </div>
         <div class="pull-right">
-            <a href="{{ route('selldeposite')}}" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Add New Content"><i class="fa fa-btn fa-sign-out"></i>Back to List</a>
+            <a href="{{ route('pengiriman')}}" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Add New Content"><i class="fa fa-btn fa-sign-out"></i>Back to List</a>
         </div>
     </div>
 
@@ -34,11 +34,11 @@
                 
                 <div class="panel-body">
 
-                    <form class="form-horizontal" method="POST" action="{{ route('selldeposite.update', $selldeposite->id)}}" enctype="multipart/form-data">
+                    <form class="form-horizontal" method="POST" action="{{ route('pengiriman.update', $pengiriman->id)}}" enctype="multipart/form-data">
                         {!! csrf_field() !!}
                         
                     	{!! method_field('PUT') !!}
-                        @include('selldeposite.form')
+                        @include('pengiriman.form')
 
                     </form>
                 

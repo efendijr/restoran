@@ -31,11 +31,25 @@
     <label class="col-md-2 control-label">Price</label>
 
     <div class="col-md-8">
-        <input type="number" step="any" class="form-control" name="price" value="{{ old('price', @$makanan->priceMakanan) }}">
+        <input type="number" min="0" class="form-control" name="price" value="{{ old('price', @$makanan->priceMakanan) }}">
 
         @if ($errors->has('price'))
             <span class="help-block">
                 <strong>{{ $errors->first('price') }}</strong>
+            </span>
+        @endif
+    </div>
+</div>
+
+<div class="form-group{{ $errors->has('diskon') ? ' has-error' : '' }}">
+    <label class="col-md-2 control-label">Diskon</label>
+
+    <div class="col-md-8">
+        <input type="number" min="10" max="90" class="form-control" name="diskon" value="{{ old('diskon', @$makanan->diskonMakanan) }}">
+
+        @if ($errors->has('diskon'))
+            <span class="help-block">
+                <strong>{{ $errors->first('diskon') }}</strong>
             </span>
         @endif
     </div>

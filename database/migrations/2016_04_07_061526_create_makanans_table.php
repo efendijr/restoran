@@ -22,6 +22,12 @@ class CreateMakanansTable extends Migration
             $table->string('imageMakanan');
             $table->string('thumbMakanan');
             $table->timestamps();
+
+            // delete semua yang ada user_id
+            // $table->foreign('user_id')
+            //       ->references('id')
+            //       ->on('users')
+            //       ->onDelete('cascade');
         });
     }
 

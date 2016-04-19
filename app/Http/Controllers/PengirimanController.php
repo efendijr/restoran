@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Pengiriman;
+use App\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -30,9 +31,10 @@ class PengirimanController extends Controller
 
     public function store(Request $request, Pengiriman $pengiriman)
     {
-    	$token = $request->get('token');
-        $pengiriman->token = bcrypt($token);
-        $pengiriman = $request->get('nominal');
+        $pengiriman->payment_id = $request->get('payment_id');
+        $pengiriman->member_id = $request->get('member_id');
+        $pengiriman->alamat = $request->get('alamat');
+        $pengiriman->status = $request->get('status');
         $pengiriman->save();
 
         Session::flash('flash_success', 'Berhasil Menambahkan data baru');
@@ -46,13 +48,17 @@ class PengirimanController extends Controller
 
     public function edit(Pengiriman $pengiriman)
     {
-        return view('pengiriman.edit', compact('pengiriman'));
+
+        $gettags = Status::all();
+        return view('pengiriman.edit', compact('pengiriman', 'gettags'));
     }
 
     public function update(Request $request, Pengiriman $pengiriman)
     {
-    	$pengiriman->token = bcrypt($request->get('token'));
-    	$pengiriman->nominal = $request->get('nominal');
+    	$pengiriman->payment_id = $request->get('payment_id');
+        $pengiriman->member_id = $request->get('member_id');
+        $pengiriman->alamat = $request->get('alamat');
+        $pengiriman->status = $request->get('status');
     	$pengiriman->save();
 
         Session::flash('flash_update', 'Berhasil Update data');
