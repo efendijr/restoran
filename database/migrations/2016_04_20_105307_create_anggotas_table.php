@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTesslugsTable extends Migration
+class CreateAnggotasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,10 @@ class CreateTesslugsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tesslugs', function (Blueprint $table) {
+        Schema::create('anggotas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->text('description');
-            $table->string('slug')->unique();
+            $table->string('name');
+            $table->string('password');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateTesslugsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tesslugs');
+        Schema::drop('anggotas');
     }
 }

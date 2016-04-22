@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Pengiriman;
 use App\Status;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 
@@ -24,28 +25,6 @@ class PengirimanController extends Controller
         return view('pengiriman.index', compact('pengirimans'));
     }
 
-    public function create()
-    {
-        return view('pengiriman.create');
-    }
-
-    public function store(Request $request, Pengiriman $pengiriman)
-    {
-        $pengiriman->payment_id = $request->get('payment_id');
-        $pengiriman->member_id = $request->get('member_id');
-        $pengiriman->alamat = $request->get('alamat');
-        $pengiriman->status = $request->get('status');
-        $pengiriman->save();
-
-        Session::flash('flash_success', 'Berhasil Menambahkan data baru');
-        return redirect()->route('pengiriman');
-    }
-
-    public function show(Pengiriman $pengiriman)
-    {
-        return view('pengiriman.show', compact('pengiriman'));
-    }
-
     public function edit(Pengiriman $pengiriman)
     {
 
@@ -55,11 +34,10 @@ class PengirimanController extends Controller
 
     public function update(Request $request, Pengiriman $pengiriman)
     {
-    	$pengiriman->payment_id = $request->get('payment_id');
-        $pengiriman->member_id = $request->get('member_id');
-        $pengiriman->alamat = $request->get('alamat');
-        $pengiriman->status = $request->get('status');
-    	$pengiriman->save();
+    	// $pengiriman->payment_id = $request->get('payment_id');
+        $pengiriman->admin_id = Auth::guard('admin')->user()->id;
+        $pengiriman->statusDelivery = $request->get('status');
+    	$pengiriman->update();
 
         Session::flash('flash_update', 'Berhasil Update data');
         return redirect()->route('pengiriman');

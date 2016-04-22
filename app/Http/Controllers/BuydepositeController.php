@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Buydeposite;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 
@@ -31,7 +32,8 @@ class BuydepositeController extends Controller
 
     public function store(Request $request, Buydeposite $buydeposite)
     {
-        $buydeposite->token = str_random(20);
+        $buydeposite->tokenBuy = str_random(20);
+        $buydeposite->admin_id = Auth::guard('admin')->user()->id;
         $buydeposite->nominal = $request->get('nominal');
         $buydeposite->save();
 
@@ -51,7 +53,7 @@ class BuydepositeController extends Controller
 
     public function update(Request $request, Buydeposite $buydeposite)
     {
-    	$buydeposite->token = substr(str_shuffle($request->get('token')), 0, 17);
+    	$buydeposite->tokenBuy = substr(str_shuffle($request->get('token')), 0, 17);
     	$buydeposite->nominal = $request->get('nominal');
     	$buydeposite->save();
 

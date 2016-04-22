@@ -100,6 +100,7 @@ class AuthController extends Controller
             $admin->nameAdmin = $request->get('name');
             $admin->emailAdmin = $getemail;
             $admin->password = bcrypt($request->get('password'));
+            $admin->imageAdmin = "http://image.com";
             $admin->save();
 
             Session::flash('flash_success', 'anda berhasil registrasi');

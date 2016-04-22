@@ -18,6 +18,8 @@ class CreateMembersTable extends Migration
             $table->string('emailMember')->unique();
             $table->string('usernameMember')->unique();
             $table->string('password');
+            $table->string('addressMember');
+            $table->string('phoneMember');
             $table->decimal('depositeMember');
             $table->string('imageMember');
             $table->string('thumbMember');

@@ -12,7 +12,8 @@ class Selldeposite extends Model
     {
     	if ($keyword!='') {
     		$query->where(function ($query) use ($keyword){
-    			$query->where("token", "LIKE", "%$keyword%")
+    			$query->where("member_id", "LIKE", "%$keyword%")
+                      ->orwhere("token", "LIKE", "%$keyword%")
     				  ->orWhere("nominal", "LIKE", "%$keyword%");
     		});
     	}

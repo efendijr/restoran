@@ -25,9 +25,9 @@ class Member extends Model
     {
         return $this->hasMany(Selldeposite::class);
     }
-
-    public function pengiriman()
+    public function payment()
     {
-        return $this->hasMany(Pengiriman::class);
+        return $this->hasMany(Payment::class);
     }
+
 }

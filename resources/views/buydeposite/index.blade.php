@@ -81,7 +81,7 @@
 	  	@foreach($buydeposites as $buydeposite)
 	  	<tr>
 	  		<td class="col-md-1">{{ $buydeposite->id }}</td>
-	  		<td class="col-md-4">{{ $buydeposite->token }}</td>
+	  		<td class="col-md-4">{{ $buydeposite->tokenBuy }}</td>
 	  		<td class="col-md-2">{{ $buydeposite->nominal }}</td>
 	  		<td class="col-md-2">
 	  			<time class="timeago" datatime="{{ $buydeposite->updated_at->toIso8601String() }}" 

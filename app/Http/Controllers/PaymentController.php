@@ -23,22 +23,7 @@ class PaymentController extends Controller
         return view('payment.index', compact('payments'));
     }
 
-    public function create()
-    {
-        return view('payment.create');
-    }
-
-    public function store(Request $request, Payment $payment)
-    {
-    	$token = $request->get('token');
-        $payment->token = bcrypt($token);
-        $payment = $request->get('nominal');
-        $payment->save();
-
-        Session::flash('flash_success', 'Berhasil Menambahkan data baru');
-        return redirect()->route('payment');
-    }
-
+    
     public function show(Payment $payment)
     {
         return view('payment.show', compact('payment'));
@@ -49,16 +34,7 @@ class PaymentController extends Controller
         return view('payment.edit', compact('payment'));
     }
 
-    public function update(Request $request, Payment $payment)
-    {
-    	$payment->token = bcrypt($request->get('token'));
-    	$payment->nominal = $request->get('nominal');
-    	$payment->save();
-
-        Session::flash('flash_update', 'Berhasil Update data');
-        return redirect()->route('payment');
-    }
-
+    
     public function destroy($id)
     {
     	Payment::destroy($id);

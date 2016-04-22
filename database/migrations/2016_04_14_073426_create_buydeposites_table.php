@@ -14,7 +14,8 @@ class CreateBuydepositesTable extends Migration
     {
         Schema::create('buydeposites', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('token')->unique();
+            $table->integer('admin_id')->unsigned()->index();
+            $table->string('tokenBuy')->unique();
             $table->decimal('nominal');
             $table->timestamps();
         });

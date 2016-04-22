@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
-	protected $fillable = ['makanan_id', 'memberName', 'price', 'quantity', 'total'];
+	protected $fillable = ['makanan_id', 'member_id', 'price', 'quantity', 'total'];
 
 
     public function pengiriman()
@@ -19,7 +19,7 @@ class Payment extends Model
     	if ($keyword!='') {
     		$query->where(function ($query) use ($keyword){
     			$query->where("makanan_id", "LIKE", "%$keyword%")
-    				  ->orWhere("memberName", "LIKE", "%$keyword%")
+    				  ->orWhere("member_id", "LIKE", "%$keyword%")
     				  ->orWhere("price", "LIKE", "%$keyword%")
     				  ->orWhere("quantity", "LIKE", "%$keyword%")
     				  ->orWhere("total", "LIKE", "%$keyword%");

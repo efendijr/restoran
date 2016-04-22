@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pengiriman extends Model
 {
-    protected $fillable = ['payment_id', 'usernameMember', 'alamat', 'status'];
+    protected $fillable = ['payment_id', 'nameReceiver', 'alamatReceiver', 'phoneReceiver', 'status'];
 
     public function scopeSearchByKeyword($query, $keyword)
     {
-    	if ($keyword!='') {
-    		$query->where(function ($query) use ($keyword){
-    			$query->where("payment_id", "LIKE", "%$keyword%")
-    				  ->orWhere("usernameMember", "LIKE", "%$keyword%")
-    				  ->orWhere("alamat", "LIKE", "%$keyword%")
+        if ($keyword!='') {
+            $query->where(function ($query) use ($keyword){
+                $query->where("payment_id", "LIKE", "%$keyword%")
+                      ->orWhere("usernameMember", "LIKE", "%$keyword%")
+                      ->orWhere("alamat", "LIKE", "%$keyword%")
                       ->orWhere('status', "LIKE", "%$keyword%");
-    		});
-    	}
+            });
+        }
 
         return $query;
     }
@@ -27,8 +27,8 @@ class Pengiriman extends Model
         return $this->belongsTo(Payment::class);
     }
 
-    public function member()
+    public function admin()
     {
-        return $this->belongsTo(Member::class);
+        return $this->belongsTo(Admin::class);
     }
 }

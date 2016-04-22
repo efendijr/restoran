@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Buydeposite;
 use App\Http\Requests;
 use App\Makanan;
 use App\Member;
 use App\Payment;
 use App\Pengiriman;
+use App\Selldeposite;
 use App\Tesslug;
 use App\Testing;
 use App\User;
@@ -24,29 +26,38 @@ class ApiController extends Controller
     	$makanan = DB::table('makanans')
                     ->join('users', 'users.id', '=', 'makanans.user_id')
                     ->select('makanans.id', 'makanans.user_id', 'makanans.nameMakanan', 'makanans.descriptionMakanan', 
-                        'makanans.priceMakanan', 'makanans.thumbMakanan', 'makanans.updated_at', 'users.name', 'users.thumb')
+                        'makanans.priceMakanan', 'makanans.diskonMakanan', 'lastPriceMakanan', 'makanans.thumbMakanan', 'makanans.updated_at', 'users.name', 'users.email', 'users.description', 'users.address', 'users.thumb')
                     ->orderBy('makanans.id', 'DESC')
                     ->get();
-        // foreach ($makanan as $makan) {
-        //     $response["status"] = true;     
-        //     $response["makanan"][] = [
-        //         "idMakanan" => $makan->id,
-        //         "nameMakanan" => $makan->nameMakanan,
-        //         "descriptionMakanan" => $makan->descriptionMakanan,
-        //         "priceMakanan" => $makan->priceMakanan,
-        //         "thumbMakanan" => $makan->thumbMakanan,
-        //         "updatedMakanan" => $makan->updated_at,
-        //         "idWarung" => $makan->user_id,
-        //         "nameWarung" => $makan->name,
-        //         "emailWarung" => $makan->email,
-        //         "addressWarung" => $makan->address,
-        //         "thumbWarung" => $makan->thumb,
-        //     ];
-        // }
-        return Response::json(array('makanan' => $makanan));
+      
+        return (array('makanan' => $makanan));
     }
 
-    public function getmax()
+
+    public function getMember(Request $request, Member $member)
+    {   
+        $query = $request->get('name');
+        $getDetail = Member::where("nameMember", "LIKE", "%$query%")->first();
+
+        return json_encode(array('member' => $getDetail));
+    }
+
+    public function gtk(Request $request)
+    {
+        $name = $request->get('name');
+        $getTK = Makanan::where('nameMakanan', $name)->first();
+        return (array('makanan' => $getTK));
+    }
+
+    public function tess(Request $request)
+    {
+        $nameq = $request->get('name');
+        $getmakanan = Makanan::where("nameMakanan", "LIKE" , "%$nameq%")->get();
+
+        return json_encode(array('makanan' => $getmakanan));
+    }
+
+    public function getmax()// the favorite customer
     {
         // $tes = DB::table('makanans')->select('user_id', DB::raw('count(*) as total'))->groupby('user_id')->limit(2)->get();
         $tes = DB::table('makanans')->join('payments', 'makanans.id', '=', 'payments.makanan_id')->select('makanans.id', 'makanans.nameMakanan', 'makanans.priceMakanan',  DB::raw('count(*) as total'))->groupby('payments.makanan_id')->limit(2)->get();
@@ -77,36 +88,28 @@ class ApiController extends Controller
      */
     public function registrasiMember(Request $request, Member $member)
     {
-        // $rules = [
-        //     'name' => 'required|min:5|max:100',
-        //     'email' => 'required|email|min:5|max:100',
-        //     'username' => 'required|min:5|max:100',
-        //     'password' => 'required|min:6|max:100',
-        // ];
-        // $validasi = validator($request, $rules);
-        
+        $name = $request->get('name');
         $email = $request->get('email');
         $username = $request->get('username');
         $password = $request->get('password');
         
-        $getEmail = Member::where('emailMember', $email)->first();
-        $getUserName = Member::where('usernameMember', $username)->first();
+        $getEmail = Member::where('emailMember', $email)->count();
+        $getUserName = Member::where('usernameMember', $username)->count();
 
-        if (($getEmail == null) && ($getUserName == null) ) {
-            $member->nameMember = $request->get('name');
+        if (($getEmail < 1) && ($getUserName < 1) ) {
+            $member->nameMember = $name;
             $member->emailMember = $email;
-            $member->usernameMember = $username;
+            $member->usernameMember = $name;
             $member->password = bcrypt($password);
             $member->imageMember = "https://placehold.it/172x180";
             $member->thumbMember = "https://placehold.it/172x180";
             $member->depositeMember = 1000;
             $member->save();
 
-             return json_encode(array(
-                "status" => false,
-                "message" => "berhasil melakukan registrasi"
-                ));
-        
+            $getEmail1 = Member::where('emailMember', $email)->first();
+
+            return (array('status' => true, 'member' => $getEmail1));
+            
         } elseif($getEmail != null) {
             return json_encode(array(
                 "status" => false,
@@ -125,46 +128,27 @@ class ApiController extends Controller
      */
     public function loginMember(Request $request, Member $member)
     {
-        // $rules = [
-        //     'email' => 'required|email|min:5|max:100',
-        //     'password' => 'required|min:6|max:100',
-        // ];
-
+        
         $email = $request->get('email');
         $password = $request->get('password');
-        $getEmail = Member::where('emailMember', $email)->first();
-        $getEmail1 = Member::where('emailMember', $email)->get();
-        $getPassword = Member::where('emailMember', $email)->first()->password;
-       
-        $getMember1 = Member::where('emailMember', $email)->get();
+        $checkEmail = Member::where('emailMember', $email)->count();
 
-        if ($getEmail != null) {
-            
-            if (Hash::check($password, $getPassword)) { // check credential
-                foreach ($getEmail1 as $value) {
-                $result["status"] = true;
-                $result["result"] = array(
-                    "nameMember" => $value["nameMember"],
-                    "emailMember" => $value["emailMember"],
-                    "usernameMember" => $value["usernameMember"],
-                    "imageMember" => $value["imageMember"],
-                    "depositeMember" => $value["depositeMember"],
-                    "created_at" => $value["created_at"],
-                    "updated_at" => $value["updated_at"]
-                    );
-                }
-                return json_encode($result);
+        if ($checkEmail > 0) {
+            $checkAja = Member::where('emailMember', $email)->first()->password;
+
+            if (Hash::check($password, $checkAja)) { // check credential
+               
+                $getEmail = Member::where('emailMember', $email)->first();
+                return (array('status' => true, 'member' => $getEmail));
             
             } else {
-                return json_encode(array(
+                return (array(
                     "status" => false,
-                    "message" => "email dan password tidak cocok"
-                    ));
+                    "message" => "email dan password tidak cocok"));
             }
 
         } else {
-
-            return json_encode(array(
+            return (array(
                 "status" => false,
                 "message" => "email tidak terdaftar"
                 ));            
@@ -174,12 +158,19 @@ class ApiController extends Controller
 
     public function paymentResto(Request $request, Payment $payment, User $user, Makanan $makanan, Pengiriman $pengiriman)
     {
+        // intent from android (inputan)
         $idMakanan = $request->get('menuId');
         $username = $request->get('userName');
-        $total = $request->get('total');
+        $quantity = $request->get('jumlahdec');
+        $nameReceiver = $request->get('namakirim');
+        $addressReceiver = $request->get('alamatkirim');
+        $phoneReceiver = $request->get('telponkirim');
 
         // get price makanan
         $getPrice = Makanan::where('id', $idMakanan)->first()->priceMakanan;
+        $getPrice1 = (float) $getPrice;
+        $getquantity = (float) $quantity;
+        $getTotal = $getPrice1 * $getquantity;
         //get member id
         $getMemberId = Member::where('usernameMember', $username)->first()->id; 
         // get user id(warung)
@@ -188,7 +179,7 @@ class ApiController extends Controller
         $getdepositemember = Member::where('usernameMember', $username)->first()->depositeMember;
 
 
-        if ($total > $getdepositemember) {
+        if ($getTotal > $getdepositemember) {
             return json_encode(array(
                 "error" => false,
                 "message" => "deposite tidak mencukupi"
@@ -196,114 +187,118 @@ class ApiController extends Controller
         
         } else {
 
-            $payment->makanan_id = $idMakanan;
-            $payment->memberName = $username;
-            $payment->price = $getPrice;
-            $payment->quantity = $request->get('jumlahdec');
-            $payment->total = $total;
-            $payment->save();
+        	$payment = Payment::create([
+        		'makanan_id' => $idMakanan,
+        		'member_id' => $getMemberId,
+        		'price' => $getPrice,
+        		'quantity' => $quantity,
+        		'total' => $getTotal,
+        		]);
 
-             $tes = Member::where('usernameMember', $username)
-                    ->decrement('depositeMember', $total);
+        	if ($payment != null) {
+        		
+        		$tes = Member::where('usernameMember', $username)
+                    ->decrement('depositeMember', $getTotal);
 
-            $bayar = User::where('id', $getuserid)
-                        ->increment('deposite', $total);
+            	$bayar = User::where('id', $getuserid)
+                        ->increment('deposite', $getTotal);
 
-            $getpaymentId = Payment::where('memberName', $username)->orderBy('id', 'DESC')->first()->id;
+	            $getpaymentId = Payment::where('makanan_id', $idMakanan)->orderBy('id', 'DESC')->first()->id;
 
-            $pengiriman->payment_id = $getpaymentId;
-            $pengiriman->member_id = $getMemberId;
-            $pengiriman->usernameMember = $username;
-            $pengiriman->namapenerima = $request->get('namakirim');
-            $pengiriman->alamatpenerima = $request->get('alamatkirim');
-            $pengiriman->telponpenerima = $request->get('telponkirim');
-            $pengiriman->status = "sedang diproses";
-            $pengiriman->save();
 
-             return json_encode(array(
+	            // Pengiriman::create([
+	            // 	'payment_id' => $getpaymentId,
+	            // 	'nameReceiver' => $nameReceiver,
+	            // 	'addressReceiver' =>$addressReceiver,
+	            // 	'phoneReceiver' => $phoneReceiver,
+	            // 	'statusDelivery' => 'diproses',	
+	            // 	]);
+	            $pengiriman->payment_id = $getpaymentId;
+	            // $pengiriman->admin_id = $admin_id;
+	            $pengiriman->nameReceiver = $nameReceiver;
+	            $pengiriman->addressReceiver = $addressReceiver;
+	            $pengiriman->phoneReceiver = $phoneReceiver;
+	            $pengiriman->statusDelivery = "sedang diproses";
+	            $pengiriman->save();
+
+	            return json_encode(array(
                 "error" => false,
                 "message" => "transaksi berhasil"
                 ));  
+        	
+        	} else {
+        		 return json_encode(array(
+                "error" => true,
+                "message" => "data pengiriman tidak lengkap"
+                ));  
+        	}
+
         }
        
     }
 
-    public function addingDeposite(Request $request, Buydeposite $buydeposite)
+   public function usingToken(Request $request, Buydeposite $buydeposite, Selldeposite $selldeposite)
     {
+        //intent from android
         $token = $request->get('token');
-        $getdeposite = Buydeposite::where('token', $token)->first()->nominal;
+        $username = $request->get('username');
+
+        // process
+        $getMemberId = Member::where('usernameMember', $username)->first()->id;
+        $checkdeposite = Buydeposite::where('tokenBuy', $token)->first();
+        $getdeposite = Buydeposite::where('tokenBuy', $token)->first()->nominal;
+
+        $tambah = Member::where('id', $getMemberId)->increment('depositeMember', $getdeposite);
+
+        $getMember = Member::where('usernameMember', $username)->first();
+
+        if ($checkdeposite != null) {
+
+            if ($tambah != null) {
+                $selldeposite->member_id = $getMemberId;
+                $selldeposite->token = $token;
+                $selldeposite->nominal = $getdeposite;
+                $selldeposite->save();
+
+                $delete = Buydeposite::where('tokenBuy', $token)->delete();
+                
+
+                // showing response
+                // foreach ($getMember as $value) {
+                // $result["status"] = true;
+                // $result["result"] = array(
+                //     "nameMember" => $value["nameMember"],
+                //     "emailMember" => $value["emailMember"],
+                //     "usernameMember" => $value["usernameMember"],
+                //     "imageMember" => $value["imageMember"],
+                //     "depositeMember" => $value["depositeMember"],
+                //     "updated_at" => $value["updated_at"]
+                //     );
+                // }
+                // return json_encode($result);
+
+                return json_encode(array(
+                    "error" => false,
+                    "message" => "berhasil menambahkan token"
+                    ));
+                
+            } else {
+                return json_encode(array(
+                    "error" => true,
+                    "message" => "gagal menambahkan deposite" 
+                    ));
+            }
         
-        
-        return ;
+        } else {
+            return json_encode(array(
+                    "error" => true,
+                    "message" => "token tidak ditemukan" 
+                    ));
+
+        }
     }
 
-
-    public function getid(Request $request)
-    {
-        $id = $request->get('id');
-
-        $getuserid = Makanan::where('id', $id)->first()->user_id;
-        $tambah = User::where('id', $getuserid)->decrement('deposite', 10);
-        $userdetail = User::where('id', $getuserid)->first();
-        
-        return $userdetail;
-    }
-
-    public function getuser()
-    {
-        $getid = 1;
-        $user = User::where('id', $getid)->first();
-        return $user;
-    }
-
-    public function getMember()
-    {
-        $member = Member::where('usernameMember', 'ali')->first();
-        return $member;
-    }
-
-
-   
-    public function testing()
-    {
-        $testing = Testing::all();
-
-        return View('artikel', compact('testing'));
-    }
-
-    public function testingslug($slug)
-    { 
-        $testing = Testing::where('slug', $slug)->first();
-        return View('artikelDetail', compact('testing'));
-    }
-
-    public function tesslug()
-    {
-        $tesslug = Tesslug::all();
-
-        return View('artikel', compact('tesslug'));
-    }
-
-    public function createslug()
-    {
-        return View('createslug');
-    }
-
-    public function storeslug(Request $request, Tesslug $tesslug)
-    {
-        $title1 = $request->get('title');
-        $tesslug->title = $title1;
-        $tesslug->description = $request->get('description');
-        $tesslug->slug = str_slug($title1);
-        $tesslug->save();
-
-        return redirect('tesslug');
-    }
-
-    public function tesslugDetail($slug)
-    {
-        $tesslug = Tesslug::where('slug', $slug)->first();
-        return View('artikelDetail', compact('tesslug'));
-    }
     
 }
+
+

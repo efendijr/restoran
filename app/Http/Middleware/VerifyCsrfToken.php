@@ -18,9 +18,13 @@ class VerifyCsrfToken extends BaseVerifier
         'payment/makan',
         'getid',
         'getuser',
-        'getMember',
+        'getmember',
         'usingtoken',
         'getmakanan',
+        'anggota',
+        'anggotalog',
+        'tess',
+        'gettk'
 
     ];
 }

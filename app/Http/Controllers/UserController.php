@@ -58,8 +58,8 @@ class UserController extends Controller
 	            $user->email = $getemail;
 	            $user->password = bcrypt($request->get('password'));
 	            $user->description = $request->get('description');
-	            $user->alias = $getalias;
 	            $user->address = $request->get('address');
+	            $user->alias = $getalias;
 	            $user->logo = 'http://localhost/restoran/public/uploads/' . $filename;
 	            $user->thumb = 'http://192.168.1.22/restoran/public/uploads/' . $filename;
 	            $user->save();
@@ -75,8 +75,8 @@ class UserController extends Controller
 	            $user->email = $getemail;
 	            $user->password = bcrypt($request->get('password'));
 	            $user->description = $request->get('description');
-	            $user->alias = $getalias;
 	            $user->address = $request->get('address');
+	            $user->alias = $getalias;
 	            $user->logo = 'https://placehold.it/171x180';
 	            $user->thumb = 'https://placehold.it/171x180';
 	            $user->save();

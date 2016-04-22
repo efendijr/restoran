@@ -15,10 +15,11 @@ class CreatePengirimenTable extends Migration
         Schema::create('pengirimen', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('payment_id')->unsigned()->index();
-            $table->integer('member_id')->unsigned()->index();
-            $table->string('usernameMember');
-            $table->string('alamat');
-            $table->string('status');
+            $table->integer('admin_id')->unsigned()->index();
+            $table->string('nameReceiver');
+            $table->string('addressReceiver');
+            $table->string('phoneReceiver');
+            $table->string('statusDelivery');
             $table->timestamps();
         });
     }

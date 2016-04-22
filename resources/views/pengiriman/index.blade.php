@@ -68,7 +68,7 @@
 	  	<tr>
 	  		<th class="col-md-1">Id</th>
 	  		<th class="col-md-1">Payment Id</th>
-	  		<th class="col-md-1">Member Id</th>
+	  		<th class="col-md-1">Admin Id</th>
 			<th class="col-md-2">Name Member</th>
 			<th class="col-md-2">Status</th>
 	  		<th class="col-md-2">Last Modified</th>
@@ -81,9 +81,9 @@
 	  	<tr>
 	  		<td class="col-md-1">{{ $pengiriman->id }}</td>
 	  		<td class="col-md-1">{{ $pengiriman->payment_id }}</td>
-	  		<td class="col-md-1">{{ $pengiriman->member_id }}</td>
-	  		<td class="col-md-2">{{ $pengiriman->usernameMember }}</td>
-	  		<td class="col-md-2">{{ $pengiriman->status }}</td>
+	  		<td class="col-md-1">{{ $pengiriman->admin_id }}</td>
+	  		<td class="col-md-2">{{ $pengiriman->nameReceiver }}</td>
+	  		<td class="col-md-2">{{ $pengiriman->statusDelivery }}</td>
 	  		<td class="col-md-2">
 	  			<time class="timeago" datatime="{{ $pengiriman->updated_at->toIso8601String() }}" 
 		    	title="{{ $pengiriman->updated_at->toDayDateTimeString() }}">

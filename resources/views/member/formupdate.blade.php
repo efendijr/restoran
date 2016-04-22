@@ -3,7 +3,7 @@
     <label class="col-md-2 control-label">Name</label>
 
     <div class="col-md-8">
-        <input type="text" class="form-control" name="name" value="{{ old('name', @$member->nameMember) }}">
+        <input type="text" id="disabledInput" disabled class="form-control" name="name" value="{{ old('name', @$member->nameMember) }}">
 
         @if ($errors->has('name'))
             <span class="help-block">
@@ -36,6 +36,48 @@
         @if ($errors->has('username'))
             <span class="help-block">
                 <strong>{{ $errors->first('username') }}</strong>
+            </span>
+        @endif
+    </div>
+</div>
+
+<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+    <label class="col-md-2 control-label">Password</label>
+
+    <div class="col-md-8">
+        <input type="password" class="form-control" name="password" value="{{ old('password', @$member->password) }}">
+
+        @if ($errors->has('password'))
+            <span class="help-block">
+                <strong>{{ $errors->first('password') }}</strong>
+            </span>
+        @endif
+    </div>
+</div>
+
+<div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
+    <label class="col-md-2 control-label">Address</label>
+
+    <div class="col-md-8">
+        <input type="text" class="form-control" name="address" value="{{ old('address', @$member->addressMember) }}">
+
+        @if ($errors->has('address'))
+            <span class="help-block">
+                <strong>{{ $errors->first('address') }}</strong>
+            </span>
+        @endif
+    </div>
+</div>
+
+<div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+    <label class="col-md-2 control-label">Phone</label>
+
+    <div class="col-md-8">
+        <input type="text" class="form-control" name="phone" value="{{ old('phone', @$member->phoneMember) }}">
+
+        @if ($errors->has('phone'))
+            <span class="help-block">
+                <strong>{{ $errors->first('phone') }}</strong>
             </span>
         @endif
     </div>

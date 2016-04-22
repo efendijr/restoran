@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Makanan extends Model
 {
-    protected $fillable = ['warung_id', 'name', 'description', 'price'];
+    protected $fillable = ['user_id', 'nameMakanan', 'slugMakanan', 'descriptionMakanan', 'priceMakanan'];
 
     public function user()
     {
@@ -25,5 +25,10 @@ class Makanan extends Model
     	}
 
         return $query;
+    }
+
+    public function payment()
+    {
+        return $this->hasMany(Payment::class);
     }
 }

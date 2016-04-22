@@ -19,6 +19,8 @@ class CreateMakanansTable extends Migration
             $table->String('slugMakanan')->unique();
             $table->string('descriptionMakanan');
             $table->decimal('priceMakanan');
+            $table->decimal('diskonMakanan');
+            $table->decimal('lastPriceMakanan');
             $table->string('imageMakanan');
             $table->string('thumbMakanan');
             $table->timestamps();

@@ -25,4 +25,14 @@ class Admin extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function buydeposite()
+    {
+        return $this->hasMany(Buydeposite::class);
+    }
+
+    public function pengirimans()
+    {
+        return $this->hasMany(Pengiriman::class);
+    }
+
 }

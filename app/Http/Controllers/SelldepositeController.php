@@ -22,41 +22,41 @@ class SelldepositeController extends Controller
         return view('selldeposite.index', compact('selldeposites'));
     }
 
-    public function create()
-    {
-        return view('selldeposite.create');
-    }
+    // public function create()
+    // {
+    //     return view('selldeposite.create');
+    // }
 
-    public function store(Request $request, Selldeposite $selldeposite)
-    {
-    	$token = $request->get('token');
-        $selldeposite->token = bcrypt($token);
-        $selldeposite = $request->get('nominal');
-        $selldeposite->save();
+    // public function store(Request $request, Selldeposite $selldeposite)
+    // {
+    // 	$token = $request->get('token');
+    //     $selldeposite->token = bcrypt($token);
+    //     $selldeposite = $request->get('nominal');
+    //     $selldeposite->save();
 
-        Session::flash('flash_success', 'Berhasil Menambahkan data baru');
-        return redirect()->route('selldeposite');
-    }
+    //     Session::flash('flash_success', 'Berhasil Menambahkan data baru');
+    //     return redirect()->route('selldeposite');
+    // }
 
-    public function show(Selldeposite $selldeposite)
-    {
-        return view('selldeposite.show', compact('selldeposite'));
-    }
+    // public function show(Selldeposite $selldeposite)
+    // {
+    //     return view('selldeposite.show', compact('selldeposite'));
+    // }
 
-    public function edit(Selldeposite $selldeposite)
-    {
-        return view('selldeposite.edit', compact('selldeposite'));
-    }
+    // public function edit(Selldeposite $selldeposite)
+    // {
+    //     return view('selldeposite.edit', compact('selldeposite'));
+    // }
 
-    public function update(Request $request, Selldeposite $selldeposite)
-    {
-    	$selldeposite->token = bcrypt($request->get('token'));
-    	$selldeposite->nominal = $request->get('nominal');
-    	$selldeposite->save();
+    // public function update(Request $request, Selldeposite $selldeposite)
+    // {
+    // 	$selldeposite->token = bcrypt($request->get('token'));
+    // 	$selldeposite->nominal = $request->get('nominal');
+    // 	$selldeposite->save();
 
-        Session::flash('flash_update', 'Berhasil Update data');
-        return redirect()->route('selldeposite');
-    }
+    //     Session::flash('flash_update', 'Berhasil Update data');
+    //     return redirect()->route('selldeposite');
+    // }
 
     public function destroy($id)
     {

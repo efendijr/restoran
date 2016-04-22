@@ -68,9 +68,11 @@
 	  	<tr>
 	  		<th class="col-md-1">Id</th>
 	  		<th class="col-md-1">Makanan_id</th>
-	  		<th class="col-md-2">memberName</th>
+	  		<th class="col-md-1">member_id</th>
+	  		<th class="col-md-2">Price</th>
+	  		<th class="col-md-1">Quantity</th>
 			<th class="col-md-2">total</th>
-	  		<th class="col-md-2">Last Modified</th>
+	  		<th class="col-md-1">Last Modified</th>
 	  		<th class="col-md-3">Action</th>
 	  	</tr>
 	  	</thead>
@@ -80,9 +82,11 @@
 	  	<tr>
 	  		<td class="col-md-1">{{ $payment->id }}</td>
 	  		<td class="col-md-1">{{ $payment->makanan_id }}</td>
-	  		<td class="col-md-3">{{ $payment->memberName }}</td>
+	  		<td class="col-md-1">{{ $payment->member_id }}</td>
+	  		<td class="col md-2">{{ $payment->price }}</td>
+	  		<td class="col-md-1">{{ $payment->quantity }}</td>
 	  		<td class="col-md-2">{{ $payment->total }}</td>
-	  		<td class="col-md-2">
+	  		<td class="col-md-1">
 	  			<time class="timeago" datatime="{{ $payment->updated_at->toIso8601String() }}" 
 		    	title="{{ $payment->updated_at->toDayDateTimeString() }}">
 		    	{{ $payment->updated_at->diffForHumans() }}	
@@ -91,7 +95,6 @@
 	  		</td>
 	  		<td class="col-md-3">
 	  			<a href="{{ route('payment.detail', $payment->id)}}" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="View Content"><i class="fa fa-caret-square-o-right"></i> View</a>
-	  			<!-- <a href="{{ route('payment.edit', $payment->id)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Edit Content"><i class="fa fa-pencil-square-o"></i> Edit</a> -->
 	  			
 	  			<a href="{{ route('payment.delete', $payment->id)}}" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Delete Content" onclick="return confirm('Are you sure to delete this food?');" ><i class="fa fa-trash-o"></i> Delete</a>
 	  		</td>

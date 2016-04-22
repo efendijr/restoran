@@ -45,7 +45,10 @@ class MemberController extends Controller
             $member->nameMember  = $request->get('name');
             $member->emailMember = $getemail;
             $member->usernameMember = $getusername;
-            $member->password = $request->get('password');
+            $member->password = bcrypt($request->get('password'));
+            $member->addressMember = $request->get('address');
+            $member->phoneMember = $request->get('phone');
+            $member->depositeMember = 0;
             $member->imageMember = 'http://localhost/restoran/public/uploads/';
             $member->thumbMember = 'http://192.168.1.22/restoran/public/uploads/';
             $member->save();
@@ -86,7 +89,10 @@ class MemberController extends Controller
             $member->nameMember  = $request->get('name');
             $member->emailMember = $getemail;
             $member->usernameMember = $getusername;
-            $member->password = $request->get('password');
+            $member->password = bcrypt($request->get('password'));
+            $member->addressMember = $request->get('address');
+            $member->phoneMember = $request->get('phone');
+            $member->depositeMember = 0;
             $member->imageMember = 'http://localhost/restoran/public/uploads/';
             $member->thumbMember = 'http://localhost/restoran/public/uploads/';
             $member->update();
