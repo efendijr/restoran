@@ -108,8 +108,10 @@ class UserController extends Controller
 							->orWhere('email', $getemail)
 							->orWhere('alias', $getalias)
 							->first();
+		$getEmail = User::where('email', $getemail)->first()->email;
+		$getAlias = User::where('alias', $getalias)->first()->alias;
 	    
-		if ($checkUser == null) {
+		if ($checkUser == null || ($getemail == $getEmail && $getalias == $getAlias)) {
             # code...
             if (Input::hasFile('logo')) {
 	            $file = Input::file('logo');
@@ -144,13 +146,13 @@ class UserController extends Controller
 	            $user->update();
 
 	                
-                Session::flash('flash_update', 'Berhasil update info makanan');
+                Session::flash('flash_update', 'Berhasil update info member');
                 return redirect()->route('warung');
             }
 
         } else {
 
-           Session::flash('flash_exist_data', 'Makanan yang akan ditambahkan sudah ada di daftar makanan');
+           Session::flash('flash_exist_data', 'Member yang akan ditambahkan sudah ada di daftar member');
            return redirect()->route('warung');
         }
 	}
@@ -159,7 +161,7 @@ class UserController extends Controller
 	{
 		User::destroy($id);
 
-		Session::flash('flash_delete', 'Berhasil menghapus user');
+		Session::flash('flash_delete', 'Berhasil menghapus member');
 	    return redirect()->route('warung');
 	}
     

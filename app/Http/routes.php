@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Requests\Request;
+use App\Payment;
 use App\Tesslug;
 use App\Testing;
 use App\User;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +25,10 @@ Route::post('gettk', 'ApiController@gtk');
 Route::post('tess', 'ApiController@tess');
 Route::post('anggota', 'TokenController@register');
 Route::post('anggotalog', 'TokenController@login');
+Route::post('updatemember', 'ApiController@updatemember');
+Route::post('historypayment', 'ApiController@historypayment');
+Route::post('getrestodetail', 'ApiController@getrestodetail');
+Route::post('getmakananbyidresto', 'ApiController@getmakananbyidresto');
 
 Route::get('/', [
 	'as' => 'home',
@@ -35,6 +41,10 @@ Route::get('getmax', 'ApiController@getmax');
 
 Route::get('/home', ['as' => 'home.login', 'uses' => 'HomeController@index']);
 Route::get('tes', 'TesController@index');
+Route::get('tespayment', function(){
+	
+	return Payment::all();
+});
 
 /*
 	tabel admin

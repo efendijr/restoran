@@ -84,8 +84,10 @@ class MemberController extends Controller
         $query = Member::where('emailMember', $getemail)
         				->orWhere('usernameMember', $getusername)
         				->first();
+        $getEmail = Member::where('emailMember', $getemail)->first()->emailMember;
+        $getUsername = Member::where('usernameMember', $getusername)->first()->usernameMember;
 
-        if ($query == null) { 
+        if ($query == null || ($getemail == $getEmail && $getusername == $getUsername)) { 
             $member->nameMember  = $request->get('name');
             $member->emailMember = $getemail;
             $member->usernameMember = $getusername;

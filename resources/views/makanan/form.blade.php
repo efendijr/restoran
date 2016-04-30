@@ -45,7 +45,7 @@
     <label class="col-md-2 control-label">Diskon</label>
 
     <div class="col-md-8">
-        <input type="number" min="10" max="90" class="form-control" name="diskon" value="{{ old('diskon', @$makanan->diskonMakanan) }}">
+        <input type="number" min="0" max="90" class="form-control" name="diskon" value="{{ old('diskon', @$makanan->diskonMakanan) }}">
 
         @if ($errors->has('diskon'))
             <span class="help-block">

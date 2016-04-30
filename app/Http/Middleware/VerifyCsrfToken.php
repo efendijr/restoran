@@ -24,7 +24,12 @@ class VerifyCsrfToken extends BaseVerifier
         'anggota',
         'anggotalog',
         'tess',
-        'gettk'
+        'gettk',
+        'tespayment',
+        'updatemember',
+        'historypayment',
+        'getrestodetail',
+        'getmakananbyidresto'
 
     ];
 }

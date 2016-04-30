@@ -121,8 +121,9 @@ class MakananController extends Controller
         // $diskon1 = $diskon / 100;
         $lastPrice = $price - (($diskon / 100) * $price);
         $query = Makanan::where('nameMakanan', '=', $makanname)->first();
+        $getnameMakanan = Makanan::where('nameMakanan', '=', $makanname)->first()->nameMakanan;
 
-        if ($query == null) {
+        if ($query == null || ($makanname == $getnameMakanan))  {
             if (Input::hasFile('image')) {
             $file = Input::file('image');
             $filename = $file->getClientOriginalName();

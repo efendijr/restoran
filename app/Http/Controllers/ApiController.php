@@ -36,10 +36,10 @@ class ApiController extends Controller
 
     public function getMember(Request $request, Member $member)
     {   
-        $query = $request->get('name');
-        $getDetail = Member::where("nameMember", "LIKE", "%$query%")->first();
+        $query = $request->get('email');
+        $getDetail = Member::where("emailMember", $query)->first();
 
-        return json_encode(array('member' => $getDetail));
+        return json_encode(array('status' => true, 'member' => $getDetail));
     }
 
     public function gtk(Request $request)
@@ -101,6 +101,8 @@ class ApiController extends Controller
             $member->emailMember = $email;
             $member->usernameMember = $name;
             $member->password = bcrypt($password);
+            $member->addressMember = "jalan dermo 2a malang";
+            $member->phoneMember = "0984673475";
             $member->imageMember = "https://placehold.it/172x180";
             $member->thumbMember = "https://placehold.it/172x180";
             $member->depositeMember = 1000;
@@ -159,12 +161,20 @@ class ApiController extends Controller
     public function paymentResto(Request $request, Payment $payment, User $user, Makanan $makanan, Pengiriman $pengiriman)
     {
         // intent from android (inputan)
-        $idMakanan = $request->get('menuId');
-        $username = $request->get('userName');
-        $quantity = $request->get('jumlahdec');
-        $nameReceiver = $request->get('namakirim');
-        $addressReceiver = $request->get('alamatkirim');
-        $phoneReceiver = $request->get('telponkirim');
+        
+        // $idMakanan = $request->get('menuId');
+        // $username = $request->get('userName');
+        // $quantity = $request->get('jumlahdec');
+        // $nameReceiver = $request->get('namakirim');
+        // $addressReceiver = $request->get('alamatkirim');
+        // $phoneReceiver = $request->get('telponkirim');
+        
+        // intent from android
+        $idMakanan = $request->get('foodId');
+        $quantity = $request->get('quantity');
+        $emailMember = $request->get('email');
+
+
 
         // get price makanan
         $getPrice = Makanan::where('id', $idMakanan)->first()->priceMakanan;
@@ -172,16 +182,19 @@ class ApiController extends Controller
         $getquantity = (float) $quantity;
         $getTotal = $getPrice1 * $getquantity;
         //get member id
-        $getMemberId = Member::where('usernameMember', $username)->first()->id; 
+        $getMemberId = Member::where('emailMember', $emailMember)->first()->id; 
         // get user id(warung)
         $getuserid = Makanan::where('id', $idMakanan)->first()->user_id;
         //getdeposite member
-        $getdepositemember = Member::where('usernameMember', $username)->first()->depositeMember;
+        $getdepositemember = Member::where('emailMember', $emailMember)->first()->depositeMember;
+        $getnameMember = Member::where('emailMember', $emailMember)->first()->nameMember;
+        $getaddressMember = Member::where('emailMember', $emailMember)->first()->addressMember;
+        $getphoneMember = Member::where('emailMember', $emailMember)->first()->phoneMember;
 
 
         if ($getTotal > $getdepositemember) {
             return json_encode(array(
-                "error" => false,
+                "status" => false,
                 "message" => "deposite tidak mencukupi"
                 ));  
         
@@ -197,7 +210,7 @@ class ApiController extends Controller
 
         	if ($payment != null) {
         		
-        		$tes = Member::where('usernameMember', $username)
+        		$tes = Member::where('emailMember', $emailMember)
                     ->decrement('depositeMember', $getTotal);
 
             	$bayar = User::where('id', $getuserid)
@@ -215,20 +228,20 @@ class ApiController extends Controller
 	            // 	]);
 	            $pengiriman->payment_id = $getpaymentId;
 	            // $pengiriman->admin_id = $admin_id;
-	            $pengiriman->nameReceiver = $nameReceiver;
-	            $pengiriman->addressReceiver = $addressReceiver;
-	            $pengiriman->phoneReceiver = $phoneReceiver;
+	            $pengiriman->nameReceiver = $getnameMember;
+	            $pengiriman->addressReceiver = $getaddressMember;
+	            $pengiriman->phoneReceiver = $getphoneMember;
 	            $pengiriman->statusDelivery = "sedang diproses";
 	            $pengiriman->save();
 
 	            return json_encode(array(
-                "error" => false,
+                "status" => true,
                 "message" => "transaksi berhasil"
                 ));  
         	
         	} else {
         		 return json_encode(array(
-                "error" => true,
+                "status" => false,
                 "message" => "data pengiriman tidak lengkap"
                 ));  
         	}
@@ -278,25 +291,99 @@ class ApiController extends Controller
                 // return json_encode($result);
 
                 return json_encode(array(
-                    "error" => false,
+                    "status" => true,
                     "message" => "berhasil menambahkan token"
                     ));
                 
             } else {
                 return json_encode(array(
-                    "error" => true,
+                    "status" => false,
                     "message" => "gagal menambahkan deposite" 
                     ));
             }
         
         } else {
             return json_encode(array(
-                    "error" => true,
+                    "status" => false,
                     "message" => "token tidak ditemukan" 
                     ));
 
         }
     }
+
+
+    public function updatemember(Request $request, Member $member)
+    {
+        $name = $request->get('name');
+        $address = $request->get('address');
+        $phone = $request->get('phone');
+        $email = $request->get('email');
+
+        $getName = Member::where('nameMember', $name)->first();
+        $getName1 = Member::where('emailMember', $email)->first()->nameMember;
+
+        if ($getName == null || ($name == $getName1)) {
+            
+            // $member->nameMember = $name;
+            // $member->usernameMember = $name;
+            // $member->addressMember = $address;
+            // $member->phoneMember = $phone;
+            // $member->update();
+            DB::table('members')
+            	->where('emailMember', $email)
+            	->update(['nameMember' => $name, 
+            		'addressMember' => $address,
+            		'phoneMember' => $phone]);
+
+            return json_encode(array(
+                    "status" => true,
+                    "message" => "update berhasil" 
+                    ));
+        
+        } else {
+           return json_encode(array(
+                    "status" => false,
+                    "message" => "nama sudah ada" 
+                    ));
+        }
+
+    }
+
+    public function historypayment(Request $request)
+    {
+
+        $email = $request->get('email');
+        $getMemberId = Member::where('emailMember', $email)->first()->id;
+        // $getdeposite = Buydeposite::where('tokenBuy', $token)->first()->nominal;
+        
+        $gethistory = DB::table('payments')
+                        ->join('members', 'members.id', '=', 'payments.member_id')
+                        ->join('makanans', 'makanans.id', '=', 'payments.makanan_id')
+                        ->join('pengirimen', 'payments.id', '=', 'pengirimen.payment_id')
+                        ->select('payments.id', 'payments.quantity', 'payments.total', 'members.usernameMember', 'makanans.nameMakanan', 'makanans.priceMakanan', 'makanans.thumbMakanan' ,'pengirimen.addressReceiver' ,'pengirimen.statusDelivery')
+                        ->where('members.id', $getMemberId)
+                        ->get();
+
+
+        return (array('history' => $gethistory));
+    }
+
+    public function getrestodetail(Request $request)
+    {
+    	$restoId = $request->get('idwar');
+
+    	$getresto = User::where('id', $restoId)->first();
+
+    	return (array('restoran' => $getresto));
+    }
+    
+    public function getmakananbyidresto(Request $request)
+    {
+    	$restoId = $request->get('idwar');
+    	$getmakanan = Makanan::where('user_id', $restoId)->get();
+    	return array('makanan' => $getmakanan);
+    }
+    
 
     
 }

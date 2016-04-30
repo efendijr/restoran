@@ -3,7 +3,7 @@
     <label class="col-md-2 control-label">Name</label>
 
     <div class="col-md-8">
-        <input type="text" id="disabledInput" disabled class="form-control" name="name" value="{{ old('name', @$member->nameMember) }}">
+        <input type="text" class="form-control" name="name" value="{{ old('name', @$member->nameMember) }}">
 
         @if ($errors->has('name'))
             <span class="help-block">
