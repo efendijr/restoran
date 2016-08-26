@@ -14,7 +14,13 @@ class TesModel extends Model
     public function modelbaru()
     	{
     	    return null;
-    	}	
+    	}
+	
+	public function barumodel()
+		{
+		    return null;
+		}	
+				
     			
     	
 }
