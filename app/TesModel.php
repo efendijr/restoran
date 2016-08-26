@@ -6,9 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class TesModel extends Model
 {
-    public function index()
+    public function tesaja()
     {
         return null;
-    }	
+    }
+
+    public function modelbaru()
+    	{
+    	    return null;
+    	}	
+    			
     	
 }
