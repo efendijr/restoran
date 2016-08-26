@@ -4,7 +4,7 @@
     Member Page
 @endsection
 
-@include('layouts.navbarAdmin')
+@include('layouts.navbarUser')
 
 @section('content')
 <div class="container">
@@ -40,11 +40,11 @@
             <div class="lead">Daftar Member</div>
         </div>
         <div class="pull-right">
-            <a href="{{ route('member.buat')}}" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Add New Content"><i class="fa fa-plus-circle" aria-hidden="true"></i>Tambah</a>
+            <a href="{{ route('member.create')}}" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Add New Content"><i class="fa fa-plus-circle" aria-hidden="true"></i>Tambah</a>
         </div>
     </div>
 
-	<form method="GET" action="{{ route('member')}}" enctype="multipart/form-data">
+	<form method="GET" action="{{ route('member.index')}}" enctype="multipart/form-data">
     <div class="clearfix">	  
 	  <div class="col-lg-6 col-md-offset-3">
 	    <div class="input-group">
@@ -93,7 +93,7 @@
 
 	  		</td>
 	  		<td class="col-md-3">
-	  			<a href="{{ route('member.detail', $member->id)}}" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="View Content"><i class="fa fa-caret-square-o-right"></i> View</a>
+	  			<a href="{{ route('member.show', $member->id)}}" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="View Content"><i class="fa fa-caret-square-o-right"></i> View</a>
 	  			<a href="{{ route('member.edit', $member->id)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Edit Content"><i class="fa fa-pencil-square-o"></i> Edit</a>
 	  			
 	  			<a href="{{ route('member.delete', $member->id)}}" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Delete Content" onclick="return confirm('Are you sure to delete this food?');" ><i class="fa fa-trash-o"></i> Delete</a>

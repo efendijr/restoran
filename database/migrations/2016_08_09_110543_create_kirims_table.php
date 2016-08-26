@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTesTable extends Migration
+class CreateKirimsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,14 @@ class CreateTesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tes', function (Blueprint $table) {
+        Schema::create('kirims', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('bayar_id')->unsigned();
+            $table->integer('alamat_id')->unsigned();
+            $table->string('statusKirim');
             $table->timestamps();
+
+            $table->foreign('bayar_id')->references('id')->on('bayars');
         });
     }
 
@@ -25,6 +30,6 @@ class CreateTesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tes');
+        Schema::drop('kirims');
     }
 }

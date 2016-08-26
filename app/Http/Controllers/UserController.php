@@ -77,8 +77,8 @@ class UserController extends Controller
 	            $user->description = $request->get('description');
 	            $user->address = $request->get('address');
 	            $user->alias = $getalias;
-	            $user->logo = 'https://placehold.it/171x180';
-	            $user->thumb = 'https://placehold.it/171x180';
+	            $user->logo = 'https://placehold.it/171x180?text=' . $makanname;
+	            $user->thumb = 'https://placehold.it/171x180?text=' . $makanname;
 	            $user->save();
 
 	                

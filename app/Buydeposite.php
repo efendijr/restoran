@@ -13,7 +13,7 @@ class Buydeposite extends Model
     	if ($keyword!='') {
     		$query->where(function ($query) use ($keyword){
     			$query->where("admin_id", "LIKE", "%$keyword%")
-                      ->orwhere("token", "LIKE", "%$keyword%")
+                      ->orwhere("tokenBuy", "LIKE", "%$keyword%")
     				  ->orWhere("nominal", "LIKE", "%$keyword%");
     		});
     	}
@@ -21,9 +21,9 @@ class Buydeposite extends Model
         return $query;
     }
 
-    public function admin()
+    public function users()
     {
-        return $this->belongsTo(Admin::class);
+        return $this->belongsTo(User::class);
     }
 
 }

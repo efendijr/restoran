@@ -13,6 +13,27 @@
     </div>
 </div>
 
+<div class="form-group{{ $errors->has('category') ? ' has-error' : '' }}">
+    <label class="col-md-2 control-label">Kategori</label>
+
+    <div class="col-md-8">
+        <select class="selectpicker form-control" name="category">
+            <option value="{{ old('category', @$makanan->category) }}">{{ old('category', @$makanan->category) }}</option>
+
+                @foreach (App\Category::all() as $cat)
+                    <option value="{{ $cat->categoryName }}">{{ $cat->categoryName }}</option>
+                @endforeach
+
+        </select>
+
+        @if ($errors->has('name'))
+            <span class="help-block">
+                <strong>{{ $errors->first('name') }}</strong>
+            </span>
+        @endif
+    </div>
+</div>
+
 <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
     <label class="col-md-2 control-label">Description</label>
 
@@ -60,12 +81,12 @@
 
     <div class="col-md-8">
         <div class="fileinput fileinput-new" data-provides="fileinput">
-          <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-          <object data="{{ old('image', @$makanan->imageMakanan) }}" type="image/jpg">
-            <img src="{{ old('image', @$makanan->imageMakanan) }}" alt="Image" value="{{ old('image', @$makanan->image) }}">
+          <div class="fileinput-new thumbnail" style="width: 400px; height: 400px;">
+          <object data="/uploads/{{ old('image', @$makanan->imageMakanan) }}" type="image/jpg">
+            <img src="/uploads/{{ old('image', @$makanan->imageMakanan) }}" alt="Image" value="{{ old('image', @$makanan->image) }}">
           </object>
           </div>
-          <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+          <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 400px; max-height: 400px;"></div>
           <div>
             <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="image"></span>
             <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>

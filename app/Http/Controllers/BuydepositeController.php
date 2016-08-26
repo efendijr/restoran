@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 
 class BuydepositeController extends Controller
 {
-    
+
     public function index(Request $request)
     {
         if ($keyword = $request->get('keyword')) {
@@ -32,13 +32,18 @@ class BuydepositeController extends Controller
 
     public function store(Request $request, Buydeposite $buydeposite)
     {
-        $buydeposite->tokenBuy = str_random(20);
-        $buydeposite->admin_id = Auth::guard('admin')->user()->id;
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        // generate a pin based on 2 * 7 digits + a random character
+        $pin = mt_rand(1000000, 9999999).mt_rand(1000000, 9999999);
+        $string = str_shuffle($pin);
+        $buydeposite->tokenBuy = $string;
+        $buydeposite->user_id = Auth::user()->id;
         $buydeposite->nominal = $request->get('nominal');
         $buydeposite->save();
 
         Session::flash('flash_success', 'Berhasil Menambahkan data baru');
-        return redirect()->route('buydeposite');
+        return redirect()->route('buydeposite.index');
     }
 
     public function show(Buydeposite $buydeposite)
@@ -53,20 +58,23 @@ class BuydepositeController extends Controller
 
     public function update(Request $request, Buydeposite $buydeposite)
     {
-    	$buydeposite->tokenBuy = substr(str_shuffle($request->get('token')), 0, 17);
+        $pin = mt_rand(1000000, 9999999).mt_rand(1000000, 9999999);
+        $string = str_shuffle($pin);
+        $buydeposite->tokenBuy = $string;
+        $buydeposite->user_id = Auth::user()->id;
     	$buydeposite->nominal = $request->get('nominal');
     	$buydeposite->save();
 
         Session::flash('flash_update', 'Berhasil Update data');
-        return redirect()->route('buydeposite');
+        return redirect()->route('buydeposite.index');
     }
 
     public function destroy($id)
     {
     	Buydeposite::destroy($id);
-
+        // Buydeposite::find($id)->delete();
     	Session::flash('flash_delete', 'Berhasil Menghapus data');
-        return redirect()->route('buydeposite');
+        return redirect()->route('buydeposite.index');
     }
 
 }

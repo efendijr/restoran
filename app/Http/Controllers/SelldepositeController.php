@@ -38,10 +38,10 @@ class SelldepositeController extends Controller
     //     return redirect()->route('selldeposite');
     // }
 
-    // public function show(Selldeposite $selldeposite)
-    // {
-    //     return view('selldeposite.show', compact('selldeposite'));
-    // }
+    public function show(Selldeposite $selldeposite)
+    {
+        return view('selldeposite.show', compact('selldeposite'));
+    }
 
     // public function edit(Selldeposite $selldeposite)
     // {

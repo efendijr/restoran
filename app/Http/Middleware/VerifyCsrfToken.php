@@ -12,8 +12,34 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
+        'api/tesmakanan',
         'api/member/registrasi',
         'api/member/login',
+        'api/member/update',
+        'api/member/rubahgambar',
+        'api/payment',
+        'api/payment/list',
+        'api/payment/detail',
+        'api/deposite',
+        'api/deposite/ditukar',
+        'api/makanan/byresto',
+        'api/makanan/detailmakanan',
+        'api/makanan/carimakanan',
+        'api/makanan/hasilcari',
+        'api/terimacart',
+        'api/editcart',
+        'api/hapuscart',
+        'api/tampilkancart',
+        'api/totalcart',
+        'api/jumlahcart',
+        'api/listalamat',
+        'api/tambahalamat',
+        'api/editalamat',
+        'api/updatealamat',
+        'api/hapusalamat',
+        'api/kodealamat',
+        'api/cartcomplete',
+
         'testing/api',
         'payment/makan',
         'getid',
@@ -29,7 +55,10 @@ class VerifyCsrfToken extends BaseVerifier
         'updatemember',
         'historypayment',
         'getrestodetail',
-        'getmakananbyidresto'
+        'getmakananbyidresto',
+        'paymentdetail',
+        'gettoken',
+
 
     ];
 }

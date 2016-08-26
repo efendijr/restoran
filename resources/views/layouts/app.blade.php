@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="{{ asset('favicon-send.ico') }}" >
 
     <!-- Fonts -->
-    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
     <!-- <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'> -->
     <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css" type='text/css'>
 
@@ -18,9 +18,9 @@
     <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
     <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css"> -->
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
-
-    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" type='text/css'>
-    <link rel="stylesheet" href="/bower_components/jasny-bootstrap/dist/css/jasny-bootstrap.css" type='text/css'>
+    
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" type='text/css'>
+    <link rel="stylesheet" href="/bower_components/jasny-bootstrap/dist/css/jasny-bootstrap.min.css" type='text/css'>
     <link rel="stylesheet" href="/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css">
 
     <style>
@@ -72,10 +72,10 @@
     @yield('content')
 
     <!-- JavaScripts -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> -->
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.5.2/jquery.timeago.min.js"></script> -->
-    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script> -->
+   <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.5.2/jquery.timeago.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script> -->
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 
     <script src="/bower_components/jquery/dist/jquery.js"></script>

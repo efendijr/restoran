@@ -4,7 +4,7 @@
     Sell Deposite Page
 @endsection
 
-@include('layouts.navbarAdmin')
+@include('layouts.navbarUser')
 
 @section('content')
 <div class="container">
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-	<form method="GET" action="{{ route('selldeposite')}}" enctype="multipart/form-data">
+	<form method="GET" action="{{ route('selldeposite.index')}}" enctype="multipart/form-data">
     <div class="clearfix">	  
 	  <div class="col-lg-6 col-md-offset-3">
 	    <div class="input-group">
@@ -90,7 +90,7 @@
 
 	  		</td>
 	  		<td class="col-md-3">
-	  			<a href="{{ route('selldeposite.detail', $selldeposite->id)}}" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="View Content"><i class="fa fa-caret-square-o-right"></i> View</a>
+	  			<a href="{{ route('selldeposite.show', $selldeposite->id)}}" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="View Content"><i class="fa fa-caret-square-o-right"></i> View</a>
 	  			<!-- <a href="{{ route('selldeposite.edit', $selldeposite->id)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Edit Content"><i class="fa fa-pencil-square-o"></i> Edit</a> -->
 	  			
 	  			<a href="{{ route('selldeposite.delete', $selldeposite->id)}}" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Delete Content" onclick="return confirm('Are you sure to delete this food?');" ><i class="fa fa-trash-o"></i> Delete</a>

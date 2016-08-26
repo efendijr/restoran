@@ -14,7 +14,7 @@
 		</div>
 		<div class="pull-right">
 			<a href="{{ route('selldeposite.edit', $selldeposite->id)}}" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Add New Content"><i class="fa fa-pencil-square-o"></i>Edit</a>
-			<a href="{{ route('selldeposite')}}" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Add New Content"><i class="fa fa-btn fa-sign-out"></i>Back to List</a>
+			<a href="{{ route('selldeposite.index')}}" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Add New Content"><i class="fa fa-btn fa-sign-out"></i>Back to List</a>
 		</div>
 	</div>
 

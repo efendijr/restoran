@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Session;
 
 class MemberController extends Controller
 {
-    function __construct()
-    {
-        return $this->middleware('admin');
-    }
+    // function __construct()
+    // {
+    //     return $this->middleware('admin');
+    // }
 
     public function index(Request $request)
     {
@@ -66,7 +66,6 @@ class MemberController extends Controller
 
     	
     }
-
     public function show(Member $member)
     {
         return view('member.show', compact('member'));

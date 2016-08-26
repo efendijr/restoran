@@ -10,7 +10,12 @@
     @section('navbarLeft')
     	<!-- Left Side Of Navbar -->
 		<ul class="nav navbar-nav">
-		    <li><a href="{{ route('makan') }}">Makanan</a></li>
+		    <li><a href="{{ route('makanan.index') }}">Makanan</a></li>
+            <li><a href="{{ route('buydeposite.index') }}">Token</a></li>
+            <li><a href="{{ route('selldeposite.index') }}">Token Terpakai</a></li>
+            <li><a href="{{ route('member.index') }}">Member</a></li>
+            <li><a href="{{ route('payment.index') }}">Payment</a></li>
+            {{-- <li><a href="{{ route('kecamatan.index') }}">Tarif</a></li> --}}
 		</ul>
     @endsection
 @endif
@@ -25,7 +30,7 @@
     @else
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                {{ Auth::user()->alias }} <span class="caret"></span>
+                {{ Auth::user()->name }} <span class="caret"></span>
             </a>
 
             <ul class="dropdown-menu" role="menu">

@@ -34,11 +34,11 @@
             <div class="lead">Daftar Makanan</div>
         </div>
         <div class="pull-right">
-            <a href="{{ route('makan.buat')}}" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Add New Content"><i class="fa fa-plus-circle" aria-hidden="true"></i>Tambah</a>
+            <a href="{{ route('makanan.create')}}" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Add New Content"><i class="fa fa-plus-circle" aria-hidden="true"></i>Tambah</a>
         </div>
     </div>
 
-	<form method="GET" action="{{ route('makan')}}" enctype="multipart/form-data">
+	<form method="GET" action="{{ route('makanan.index')}}" enctype="multipart/form-data">
     <div class="clearfix">	  
 	  <div class="col-lg-6 col-md-offset-3">
 	    <div class="input-group">
@@ -64,9 +64,10 @@
 	  	<thead>
 	  	<tr>
 	  		<th class="col-md-1">Id</th>
-	  		<th class="col-md-3">Name</th>
+	  		<th class="col-md-2">Name</th>
+	  		<th class="col-md-2">kategori</th>
 	  		<th class="col-md-2">Price</th>
-	  		<th class="col-md-3">Last Modified</th>
+	  		<th class="col-md-2">Last Modified</th>
 	  		<th class="col-md-3">Action</th>
 	  	</tr>
 	  	</thead>
@@ -75,9 +76,10 @@
 	  	@foreach($makans as $makan)
 	  	<tr>
 	  		<td class="col-md-1">{{ $makan->id }}</td>
-	  		<td class="col-md-3">{{ $makan->nameMakanan }}</td>
+	  		<td class="col-md-2">{{ $makan->nameMakanan }}</td>
+	  		<td class="col-md-2">{{ $makan->category }}</td>
 	  		<td class="col-md-2">{{ $makan->priceMakanan }}</td>
-	  		<td class="col-md-3">
+	  		<td class="col-md-2">
 	  			<time class="timeago" datatime="{{ $makan->updated_at->toIso8601String() }}" 
 		    	title="{{ $makan->updated_at->toDayDateTimeString() }}">
 		    	{{ $makan->updated_at->diffForHumans() }}	
@@ -85,10 +87,10 @@
 
 	  		</td>
 	  		<td class="col-md-3">
-	  			<a href="{{ route('makan.detail', $makan->slugMakanan)}}" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="View Content"><i class="fa fa-caret-square-o-right"></i> View</a>
-	  			<a href="{{ route('makan.edit', $makan->id)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Edit Content"><i class="fa fa-pencil-square-o"></i> Edit</a>
+	  			<a href="{{ route('makanan.show', $makan->slugMakanan)}}" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="View Content"><i class="fa fa-caret-square-o-right"></i> View</a>
+	  			<a href="{{ route('makanan.edit', $makan->id)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Edit Content"><i class="fa fa-pencil-square-o"></i> Edit</a>
 	  			
-	  			<a href="{{ route('makan.delete', $makan->id)}}" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Delete Content" onclick="return confirm('Are you sure to delete this food?');" ><i class="fa fa-trash-o"></i> Delete</a>
+	  			<a href="{{ route('makanan.delete', $makan->id)}}" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Delete Content" onclick="return confirm('Are you sure to delete this food?');" ><i class="fa fa-trash-o"></i> Delete</a>
 	  		</td>
 	  	</tr>
 	  	@endforeach

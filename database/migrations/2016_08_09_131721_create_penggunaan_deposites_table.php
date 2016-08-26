@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAnggotasTable extends Migration
+class CreatePenggunaanDepositesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,10 @@ class CreateAnggotasTable extends Migration
      */
     public function up()
     {
-        Schema::create('anggotas', function (Blueprint $table) {
+        Schema::create('penggunaan_deposites', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('password');
+            $table->integer('bayar_id');
+            $table->decimal('nominal');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateAnggotasTable extends Migration
      */
     public function down()
     {
-        Schema::drop('anggotas');
+        Schema::drop('penggunaan_deposites');
     }
 }

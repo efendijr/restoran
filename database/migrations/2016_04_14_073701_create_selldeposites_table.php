@@ -14,10 +14,12 @@ class CreateSelldepositesTable extends Migration
     {
         Schema::create('selldeposites', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('member_id')->unsigned()->index();
-            $table->string('token')->unique();
+            $table->integer('member_id')->unsigned();
+            $table->string('tokenTerpakai')->unique();
             $table->decimal('nominal');
             $table->timestamps();
+
+            $table->foreign('member_id')->references('id')->on('members');
         });
     }
 

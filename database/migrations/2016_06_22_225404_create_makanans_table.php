@@ -14,7 +14,8 @@ class CreateMakanansTable extends Migration
     {
         Schema::create('makanans', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned();
+            $table->integer('category_id')->unsigned();
             $table->string('nameMakanan')->unique();
             $table->String('slugMakanan')->unique();
             $table->string('descriptionMakanan');
@@ -25,11 +26,8 @@ class CreateMakanansTable extends Migration
             $table->string('thumbMakanan');
             $table->timestamps();
 
-            // delete semua yang ada user_id
-            // $table->foreign('user_id')
-            //       ->references('id')
-            //       ->on('users')
-            //       ->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

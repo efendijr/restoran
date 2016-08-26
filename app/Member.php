@@ -21,13 +21,28 @@ class Member extends Model
         return $query;
     }
 
-    public function selldeposite()
+    public function selldeposites()
     {
         return $this->hasMany(Selldeposite::class);
     }
-    public function payment()
+    public function payments()
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
+    public function alamats()
+    {
+        return $this->hasMany(Alamat::class);
+    }
+
+    public function bayars()
+    {
+      return $this->hasMany(Bayar::class);
     }
 
 }

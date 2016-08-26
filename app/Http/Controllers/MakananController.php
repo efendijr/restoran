@@ -22,10 +22,10 @@ class MakananController extends Controller
     	if ($keyword = $request->get('keyword')) {
     		$keyword = Input::get('keyword', '');
     		$makans = Makanan::SearchByKeyword($keyword)->where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->paginate(5);
-           
+
     	} else {
     		$makans = Makanan::where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->paginate(5);
-    	} 
+    	}
 
         return view('makanan.index', compact('makans'));
     }
@@ -42,7 +42,7 @@ class MakananController extends Controller
             'description' => 'required|min:10|max:255',
             'price' => 'required|numeric|min:10',
             'diskon' => 'numeric|min:0|max:90',
-            'image' => 'mimes: jpg,jpeg,png|max:300',
+            'image' => 'mimes: jpg,jpeg,png|max:1000',
         ];
 
         $this->validate($request, $rules);
@@ -57,49 +57,51 @@ class MakananController extends Controller
         if ($query == null) {
             # code...
             if (Input::hasFile('image')) {
-            $file = Input::file('image');
-            $filename = $file->getClientOriginalName();
-            $file->move('uploads', $filename);
+                $file = Input::file('image');
+                $filename = str_random(20) . '.' . $file->guessClientExtension();
+                $file->move('uploads', $filename);
 
             $makan->user_id = Auth::user()->id;
+            $makan->category = $request->get('category');
             $makan->nameMakanan  = $makanname;
             $makan->slugMakanan = str_slug($makanname);
             $makan->descriptionMakanan = $request->get('description');
             $makan->priceMakanan = $request->get('price');
             $makan->diskonMakanan = $diskon;
             $makan->lastPriceMakanan = $lastPrice;
-            $makan->imageMakanan = 'http://localhost/restoran/public/uploads/' . $filename;
-            $makan->thumbMakanan = 'http://192.168.1.22/restoran/public/uploads/' . $filename;
+            $makan->imageMakanan = $filename;
+            $makan->thumbMakanan = 'http://192.168.43.76/restoran/public/uploads/' . $makan->imageMakanan;
             $makan->save();
 
             Session::flash('flash_success', 'Berhasil menambahkan makanan baru');
 
-            return redirect()->route('makan');
+            return redirect()->route('makanan.index');
 
             } else {
 
                 $makan->user_id = Auth::user()->id;
+                $makanan->category = $request->get('category');
                 $makan->nameMakanan  = $makanname;
                 $makan->slugMakanan = str_slug($makanname);
                 $makan->descriptionMakanan = $request->get('description');
                 $makan->priceMakanan = $request->get('price');
                 $makan->diskonMakanan = $diskon;
                 $makan->lastPriceMakanan = $lastPrice;
-                $makan->imageMakanan = 'https://placehold.it/171x180';
-                $makan->thumbMakanan = 'https://placehold.it/171x180';
+                $makan->imageMakanan = 'https://placehold.it/171x180?text=' . $makanname;
+                $makan->thumbMakanan = 'https://placehold.it/171x180?text=' . $makanname;
                 $makan->save();
 
                 Session::flash('flash_success', 'Berhasil menambahkan makanan baru');
-                return redirect()->route('makan');
+                return redirect()->route('makanan.index');
             }
 
         } else {
 
            Session::flash('flash_exist_data', 'Makanan yang akan ditambahkan sudah ada di daftar makanan');
-           return redirect()->route('makan.buat');
+           return redirect()->route('makanan.create');
         }
 
-    	
+
     }
 
     public function show($slug)
@@ -115,6 +117,16 @@ class MakananController extends Controller
 
     public function update(Request $request, Makanan $makanan)
     {
+         $rules = [
+            'name' => 'required|min:3|max:20',
+            'description' => 'required|min:10|max:255',
+            'price' => 'required|numeric|min:10',
+            'diskon' => 'numeric|min:0|max:90',
+            'image' => 'mimes: jpg,jpeg,png|max:1000',
+        ];
+
+        $this->validate($request, $rules);
+
         $makanname = $request->get('name');
         $price = $request->get('price');
         $diskon = $request->get('diskon');
@@ -124,46 +136,55 @@ class MakananController extends Controller
         $getnameMakanan = Makanan::where('nameMakanan', '=', $makanname)->first()->nameMakanan;
 
         if ($query == null || ($makanname == $getnameMakanan))  {
+
+            // if (Input::hasFile('image')) {
+            // $file = Input::file('image');
+            // $filename = $file->getClientOriginalName();
+            // $file->move('uploads', $filename);
+
+             # code...
             if (Input::hasFile('image')) {
-            $file = Input::file('image');
-            $filename = $file->getClientOriginalName();
-            $file->move('uploads', $filename);
+                $file = Input::file('image');
+                $filename = str_random(20) . '.' . $file->guessClientExtension();
+                $file->move('uploads', $filename);
 
             $makanan->user_id = Auth::user()->id;
+            $makanan->category = $request->get('category');
             $makanan->nameMakanan  = $makanname;
             $makanan->slugMakanan = str_slug($makanname);
             $makanan->descriptionMakanan = $request->get('description');
             $makanan->priceMakanan = $request->get('price');
             $makanan->diskonMakanan = $diskon;
             $makanan->lastPriceMakanan = $lastPrice;
-            $makanan->imageMakanan = 'http://192.168.1.5/restoran/public/uploads/' . $filename;
-            $makanan->thumbMakanan = 'http://192.168.1.5/restoran/public/uploads/' . $filename;
+            $makanan->imageMakanan = $filename;
+            $makanan->thumbMakanan = 'http://192.168.43.76/restoran/public/uploads/' . $filename;
             $makanan->update();
 
             Session::flash('flash_update', 'Berhasil update info makanan');
-            return redirect()->route('makan');
+            return redirect()->route('makanan.index');
 
             } else {
 
                 $makanan->user_id = Auth::user()->id;
+                $makanan->category = $request->get('category');
                 $makanan->nameMakanan  = $makanname;
                 $makanan->slugMakanan = str_slug($makanname);
                 $makanan->descriptionMakanan = $request->get('description');
                 $makanan->priceMakanan = $request->get('price');
                 $makanan->diskonMakanan = $diskon;
                 $makanan->lastPriceMakanan = $lastPrice;
-                $makanan->imageMakanan = 'https://placehold.it/171x180';
-                $makanan->thumbMakanan = 'https://placehold.it/171x180';
+                // $makanan->imageMakanan = $makanname;
+                // $makanan->thumbMakanan = $makanname;
                 $makanan->update();
 
                 Session::flash('flash_update', 'Berhasil update info makanan');
-                return redirect()->route('makan');
+                return redirect()->route('makanan.index');
             }
 
         } else {
 
             Session::flash('flash_exist_data', 'Makanan yang akan ditambahkan sudah ada di daftar makanan');
-           return redirect()->route('makan.edit', $makanan->id);
+           return redirect()->route('makanan.edit', $makanan->id);
 
         }
 
@@ -174,7 +195,7 @@ class MakananController extends Controller
     	Makanan::destroy($id);
 
         Session::flash('flash_delete', 'Berhasil menghapus makanan');
-        return redirect()->route('makan');
+        return redirect()->route('makanan.index');
     }
 
 }

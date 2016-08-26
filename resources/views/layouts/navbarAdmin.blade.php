@@ -13,7 +13,7 @@
 		<ul class="nav navbar-nav">
 		    <li><a href="{{ route('member') }}">Member</a></li>
             <li><a href="{{ route('warung') }}">Warung</a></li>
-            <li><a href="{{ route('buydeposite') }}">BuyDeposite</a></li>
+            <li><a href="{{ route('admin.buydeposite.index') }}">BuyDeposite</a></li>
             <li><a href="{{ route('selldeposite') }}">SellDeposite</a></li>
             <li><a href="{{ route('payment') }}">Payment</a></li>
             <li><a href="{{ route('pengiriman') }}">Pengiriman</a></li>

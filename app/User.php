@@ -30,6 +30,19 @@ class User extends Authenticatable
         return $this->hasMany(Makanan::class);
     }
 
+    public function buydeposites()
+    {
+        return $this->hasMany(Buydeposite::class);
+    }
+
+    public function pengirimans()
+    {
+        return $this->hasMany(User::class);
+    }
+    
+    
+    
+
     public function scopeSearchByKeyword($query, $keyword)
     {
         if ($keyword!='') {

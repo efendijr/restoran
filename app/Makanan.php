@@ -7,18 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Makanan extends Model
 {
-    protected $fillable = ['user_id', 'nameMakanan', 'slugMakanan', 'descriptionMakanan', 'priceMakanan'];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    protected $fillable = ['user_id', 'category_id', 'nameMakanan', 'slugMakanan', 'descriptionMakanan', 'priceMakanan'];
 
     public function scopeSearchByKeyword($query, $keyword)
     {
     	if ($keyword!='') {
     		$query->where(function ($query) use ($keyword){
     			$query->where("nameMakanan", "LIKE", "%$keyword%")
+                      ->orWhere("category", "LIKE", "%$keyword%")
     				  ->orWhere("descriptionMakanan", "LIKE", "%$keyword%")
     				  ->orWhere("priceMakanan", "LIKE", "%$keyword%");
     		});
@@ -27,8 +23,26 @@ class Makanan extends Model
         return $query;
     }
 
-    public function payment()
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
+    public function payments()
     {
         return $this->hasMany(Payment::class);
     }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+    
+    public function pembelians()
+    {
+        return $this->hasMany(Pembelian::class);
+    }
+    
+
+    
 }

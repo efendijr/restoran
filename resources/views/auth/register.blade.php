@@ -73,48 +73,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                            <label class="col-md-2 control-label">Description</label>
-
-                            <div class="col-md-8">
-                                <textarea type="text" class="form-control" name="description">{{ old('description', @$makan->description)}}</textarea>
-
-                                @if ($errors->has('description'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('description') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
-                            <label class="col-md-2 control-label">Address </label>
-
-                            <div class="col-md-8">
-                                <textarea type="text" class="form-control" name="address">{{ old('address', @$makan->address)}}</textarea>
-
-                                @if ($errors->has('address'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('address') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('alias') ? ' has-error' : '' }}">
-                            <label class="col-md-2 control-label">Alias</label>
-
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" name="alias" value="{{ old('alias') }}">
-
-                                @if ($errors->has('alias'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('alias') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-2">
                                 <button type="submit" class="btn btn-primary">

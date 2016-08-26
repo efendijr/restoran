@@ -22,7 +22,7 @@
         </div>
         <div class="pull-right">
             
-            <a href="{{ route('makan')}}" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Add New Content"><i class="fa fa-btn fa-sign-out"></i>Back to List</a>
+            <a href="{{ route('makanan.index')}}" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Add New Content"><i class="fa fa-btn fa-sign-out"></i>Back to List</a>
         </div>
     </div>
 
@@ -35,7 +35,7 @@
                 
                 <div class="panel-body">
 
-                    <form class="form-horizontal" method="POST" action="{{ route('makan.update', $makanan->id)}}" enctype="multipart/form-data">
+                    <form class="form-horizontal" method="POST" action="{{ route('makanan.update', $makanan->id)}}" enctype="multipart/form-data">
                         {!! csrf_field() !!}
                         
                     	{!! method_field('PUT') !!}
